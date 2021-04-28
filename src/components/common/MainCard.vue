@@ -19,23 +19,29 @@ export default {
 </script>
 
 <style lang="scss">
+$cardSize: 250px;
+
 .card {
-  width: 100%;
-  height: 100%;
   &-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 250px;
-    height: 250px;
+    width: $cardSize;
+    height: $cardSize;
     padding: 30px 15px;
     margin-right: 50px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
     background: #7f00ff;
-    background: -webkit-linear-gradient(to right, #e100ff, #7f00ff);
+    background: -webkit-linear-gradient(to bottom, #e100ff, #7f00ff);
     background: linear-gradient(to bottom, #e100ff, #7f00ff);
+    opacity: 0.65;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease 0.05s;
+    cursor: pointer;
+    &:hover {
+      opacity: 1;
+      box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.5);
+    }
     &:last-child {
       margin-right: 0;
     }
@@ -43,8 +49,8 @@ export default {
   &-text {
     max-width: 100%;
     color: white;
-    font-size: 2rem;
-    font-weight: 600;
+    font-size: 2.2rem;
+    font-weight: 700;
     text-align: center;
     opacity: 0.97;
     user-select: none;

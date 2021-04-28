@@ -2,11 +2,12 @@
   <div id="app">
     <img class="logo" src="@/assets/img/logo_uisi.png" alt="УрТИСИ" />
     <div class="wrapper">
-      <div class="cards-wrapper">
-        <main-card v-for="card in firstLevelCards" :key="card.id" :cardTitle="card.title" />
-      </div>
-      <div class="cards-wrapper">
-        <main-card v-for="card in secondLevelCards" :key="card.id" :cardTitle="card.title" />
+      <div class="cards-wrapper" v-for="group in groups" :key="group.id">
+        <main-card
+          v-for="card in group.content"
+          :key="card.id"
+          :cardTitle="card.title"
+        />
       </div>
     </div>
   </div>
@@ -19,28 +20,37 @@ import MainCard from '@/components/common/MainCard'
 
 export default {
   name: 'App',
+
   components: {
     'main-card': MainCard
   },
   data: () => ({
-    firstLevelCards: [
+    groups: [
       {
         id: getRandomNumber(),
-        title: 'Тест для допуска'
+        content: [
+          {
+            id: getRandomNumber(),
+            title: 'Тест для допуска'
+          },
+          {
+            id: getRandomNumber(),
+            title: 'Теория'
+          }
+        ]
       },
       {
         id: getRandomNumber(),
-        title: 'Теория'
-      }
-    ],
-    secondLevelCards: [
-      {
-        id: getRandomNumber(),
-        title: 'Практика'
-      },
-      {
-        id: getRandomNumber(),
-        title: 'Финальный тест'
+        content: [
+          {
+            id: getRandomNumber(),
+            title: 'Практика'
+          },
+          {
+            id: getRandomNumber(),
+            title: 'Финальный тест'
+          }
+        ]
       }
     ]
   })
