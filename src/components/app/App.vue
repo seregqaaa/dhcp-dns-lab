@@ -7,6 +7,7 @@
           v-for="card in group.content"
           :key="card.id"
           :cardTitle="card.title"
+          @click.native="onClick(card.id)"
         />
       </div>
     </div>
@@ -20,7 +21,6 @@ import MainCard from '@/components/common/MainCard'
 
 export default {
   name: 'App',
-
   components: {
     'main-card': MainCard
   },
@@ -53,7 +53,15 @@ export default {
         ]
       }
     ]
-  })
+  }),
+  methods: {
+    onClick(cardId) {
+      const card = this.groups
+        .flatMap(group => group.content)
+        .find(card => card.id === cardId)
+      console.log(card)
+    }
+  }
 }
 </script>
 
