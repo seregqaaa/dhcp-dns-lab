@@ -1,7 +1,5 @@
 <template>
-  <div class="theory">
-    Theory
-  </div>
+  <h1>теория</h1>
 </template>
 
 <script>
