@@ -3,36 +3,47 @@
     <img class="logo" src="@/assets/img/logo_uisi.png" alt="УрТИСИ" />
     <div class="wrapper">
       <div class="cards-wrapper">
-        <div class="card-container">
-          <span class="card-text">
-            Тест для допуска
-          </span>
-        </div>
-        <div class="card-container">
-          <span class="card-text">
-            Теория
-          </span>
-        </div>
+        <main-card v-for="card in firstLevelCards" :key="card.id" :cardTitle="card.title" />
       </div>
       <div class="cards-wrapper">
-        <div class="card-container">
-          <span class="card-text">
-            Практика
-          </span>
-        </div>
-        <div class="card-container">
-          <span class="card-text">
-            Финальный тест
-          </span>
-        </div>
+        <main-card v-for="card in secondLevelCards" :key="card.id" :cardTitle="card.title" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getRandomNumber } from '@/utils/numbers'
+
+import MainCard from '@/components/common/MainCard'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    'main-card': MainCard
+  },
+  data: () => ({
+    firstLevelCards: [
+      {
+        id: getRandomNumber(),
+        title: 'Тест для допуска'
+      },
+      {
+        id: getRandomNumber(),
+        title: 'Теория'
+      }
+    ],
+    secondLevelCards: [
+      {
+        id: getRandomNumber(),
+        title: 'Практика'
+      },
+      {
+        id: getRandomNumber(),
+        title: 'Финальный тест'
+      }
+    ]
+  })
 }
 </script>
 
@@ -66,39 +77,5 @@ export default {
   &:last-child {
     margin-bottom: 0;
   }
-}
-
-.card {
-  width: 100%;
-  height: 100%;
-  &-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 250px;
-    height: 250px;
-    padding: 30px 15px;
-    margin-right: 50px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-    background: #7f00ff;
-    background: -webkit-linear-gradient(to right, #e100ff, #7f00ff);
-    background: linear-gradient(to bottom, #e100ff, #7f00ff);
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-  &-text {
-    max-width: 100%;
-    color: white;
-    font-size: 2rem;
-    font-weight: 600;
-    text-align: center;
-    opacity: 0.97;
-  }
-}
-
-@media (max-width: 1000px) {
 }
 </style>
