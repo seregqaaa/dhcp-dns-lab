@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <img class="logo" src="@/assets/img/logo_uisi.png" alt="УрТИСИ" />
     <div class="wrapper">
       <div class="cards-wrapper">
         <div class="card-container">
@@ -44,6 +45,17 @@ export default {
   width: 100%;
   height: 100vh;
   padding: 20px 40px;
+}
+
+.logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  opacity: 0.65;
+  transition: opacity 0.3s ease;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .cards-wrapper {
