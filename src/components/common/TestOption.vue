@@ -1,6 +1,6 @@
 <template>
   <li class="test-option">
-    <label for="id" class="test-option-label">
+    <label :for="optionId" class="test-option-label">
       <slot></slot>
     </label>
     <input type="radio" :id="optionId" :name="itemId" />

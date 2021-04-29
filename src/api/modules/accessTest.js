@@ -1,4 +1,5 @@
 import { shuffleArray } from '@/utils/arrays'
+import { getRandomString } from '@/utils/strings'
 
 const test = [
   {
@@ -7,19 +8,19 @@ const test = [
     correctAnswerId: '3',
     options: [
       {
-        id: '1',
+        id: getRandomString(),
         text: 'a1 text'
       },
       {
-        id: '2',
+        id: getRandomString(),
         text: 'a2 text'
       },
       {
-        id: '3',
+        id: getRandomString(),
         text: 'a3 text'
       },
       {
-        id: '4',
+        id: getRandomString(),
         text: 'a4 text'
       }
     ]
@@ -30,19 +31,19 @@ const test = [
     correctAnswerId: '1',
     options: [
       {
-        id: '1',
+        id: getRandomString(),
         text: 'a1 text'
       },
       {
-        id: '2',
+        id: getRandomString(),
         text: 'a2 text'
       },
       {
-        id: '3',
+        id: getRandomString(),
         text: 'a3 text'
       },
       {
-        id: '4',
+        id: getRandomString(),
         text: 'a4 text'
       }
     ]
