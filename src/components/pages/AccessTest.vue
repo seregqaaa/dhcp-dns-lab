@@ -1,6 +1,16 @@
 <template>
   <div class="access-test-wrapper">
     <h1>Тест для допуска</h1>
+    <ol class="access-test">
+      <test-item
+        v-for="item in testItems"
+        :key="item.id"
+        :itemId="item.id"
+        :options="item.options"
+      >
+        {{ item.title }}
+      </test-item>
+    </ol>
     <app-button>Подтвердить</app-button>
   </div>
 </template>
@@ -9,15 +19,18 @@
 import ApiManager from '@/api/Manager'
 
 import AppButton from '@/components/common/AppButton'
+import TestItem from '@/components/common/TestItem'
 
 export default {
   name: 'access-test',
   components: {
-    'app-button': AppButton
+    'app-button': AppButton,
+    'test-item': TestItem
   },
   data() {
     return {
-      test: []
+      testItems: [],
+      answers: []
     }
   },
   methods: {
@@ -27,8 +40,7 @@ export default {
   },
   async created() {
     try {
-      this.test = [...(await this.getTest())]
-      console.log(this.test)
+      this.testItems = [...(await this.getTest())]
     } catch (error) {
       console.error(error)
     }

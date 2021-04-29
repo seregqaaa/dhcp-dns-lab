@@ -51,13 +51,14 @@ const test = [
 
 export default {
   getTest: async () => {
-    return test.map(item => ({
+    return shuffleArray(test).map(item => ({
       id: item.id,
       title: item.title,
       options: shuffleArray(item.options)
     }))
+  },
+  getResult: async testResult => {
+    console.log(testResult)
+    return (await Math.random()) > 0.5
   }
-  // getResult: async testResult => {
-  //   return (await Math.random()) > 0.5
-  // }
 }
