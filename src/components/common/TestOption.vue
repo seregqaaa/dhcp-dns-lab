@@ -3,7 +3,12 @@
     <label :for="optionId" class="test-option-label">
       <slot></slot>
     </label>
-    <input type="radio" :id="optionId" :name="itemId" />
+    <input
+      type="radio"
+      :id="optionId"
+      :name="itemId"
+      @input="onAnswer(optionId, itemId)"
+    />
   </li>
 </template>
 
@@ -18,6 +23,11 @@ export default {
     optionId: {
       type: String,
       required: true
+    }
+  },
+  methods: {
+    onAnswer(optionId, itemId) {
+      this.$emit('on-answer', { optionId, itemId })
     }
   }
 }

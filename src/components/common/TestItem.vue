@@ -9,6 +9,7 @@
         :key="option.id"
         :itemId="itemId"
         :optionId="option.id"
+        @on-answer="onAnswer"
       >
         {{ option.text }}
       </test-option>
@@ -32,6 +33,11 @@ export default {
     itemId: {
       type: String,
       required: true
+    }
+  },
+  methods: {
+    onAnswer(payload) {
+      this.$emit('on-answer', payload)
     }
   }
 }

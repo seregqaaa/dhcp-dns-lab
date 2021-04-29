@@ -7,11 +7,12 @@
         :key="item.id"
         :itemId="item.id"
         :options="item.options"
+        @on-answer="onAnswer"
       >
         {{ item.title }}
       </test-item>
     </ol>
-    <app-button>Подтвердить</app-button>
+    <app-button @click.native="onComplete">Подтвердить</app-button>
   </div>
 </template>
 
@@ -30,17 +31,25 @@ export default {
   data() {
     return {
       testItems: [],
-      answers: []
+      answers: {}
     }
   },
   methods: {
     async getTest() {
       return ApiManager.accessTest.getTest()
+    },
+    onAnswer({ itemId, optionId }) {
+      this.answers[itemId] = optionId
+    },
+    async onComplete() {
+      const res = await ApiManager.accessTest.getResult(this.answers)
+      console.log(res)
     }
   },
   async created() {
     try {
-      this.testItems = [...(await this.getTest())]
+      const fetchedTestItems = await this.getTest()
+      this.testItems = [...fetchedTestItems]
     } catch (error) {
       console.error(error)
     }
