@@ -37,4 +37,35 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+$hSpacing: 3.2rem;
+$vSpacing: 2.4rem;
+
+body {
+  background-color: #fafafa;
+}
+.test-item {
+  &-wrapper {
+    width: 777px;
+    padding: $vSpacing $hSpacing $vSpacing $hSpacing;
+    border-radius: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 0 2rem 0 rgba(0, 0, 0, 0.1);
+  }
+  &-title {
+    margin-bottom: 2rem;
+  }
+  &-options {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    & > li {
+      margin-bottom: 1.2rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+</style>

@@ -54,6 +54,7 @@ export default {
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding-bottom: 3rem;
   }
   &-title {
     color: #000000;
