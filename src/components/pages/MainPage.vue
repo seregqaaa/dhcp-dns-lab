@@ -76,7 +76,7 @@ export default {
   position: absolute;
   top: 10px;
   left: 10px;
-  opacity: 0.5;
+  opacity: 0.7;
   transition: opacity 0.3s ease;
   &:hover {
     opacity: 1;
