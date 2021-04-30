@@ -1,7 +1,7 @@
 <template>
   <div
     :title="isDisabled && 'Сначала выполните тест для допуска'"
-    :class="`card-container ${isDisabled && 'disabled'}`"
+    :class="`card-container ${background} ${isDisabled ? 'disabled' : ''}`"
   >
     <span class="card-text">
       {{ cardTitle }}
@@ -20,6 +20,10 @@ export default {
     isDisabled: {
       type: Boolean,
       default: false
+    },
+    background: {
+      type: String,
+      default: 'purle'
     }
   }
 }
@@ -39,11 +43,9 @@ $cardSize: 250px;
     margin-right: 50px;
     box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.5);
     border-radius: 30px;
-    background: #7f00ff;
-    background: -webkit-linear-gradient(to bottom, #e100ff, #7f00ff);
-    background: linear-gradient(to bottom, #e100ff, #7f00ff);
-    opacity: 0.65;
-    transition: opacity 0.3s ease, box-shadow 0.3s ease 0.05s;
+    opacity: 0.9;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease 0.05s,
+      background 2s ease;
     cursor: pointer;
     &:hover {
       opacity: 1;
@@ -55,7 +57,7 @@ $cardSize: 250px;
     &.disabled {
       cursor: not-allowed;
       box-shadow: none;
-      opacity: 0.3;
+      opacity: 0.25;
     }
   }
   &-text {

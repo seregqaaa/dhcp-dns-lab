@@ -1,6 +1,6 @@
 <template>
   <button
-    class="btn"
+    :class="`btn ${background}`"
     :style="
       `width: ${width}px; height: ${height}px; border-radius: ${borderRadius}px`
     "
@@ -26,6 +26,10 @@ export default {
     borderRadius: {
       type: Number,
       default: 25
+    },
+    background: {
+      type: String,
+      default: 'red'
     }
   }
 }
@@ -37,9 +41,6 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 0.5rem 1rem;
-  background: #ff5f6d;
-  background: -webkit-linear-gradient(to right, #ffc371, #ff5f6d);
-  background: linear-gradient(to right, #ffc371, #ff5f6d);
   border: none;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.45);
   cursor: pointer;

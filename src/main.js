@@ -6,6 +6,7 @@ import store from './store'
 // import beforeUnload from './utils/beforeUnload'
 
 import '@/assets/reset.scss'
+import '@/assets/colors.scss'
 
 Vue.config.productionTip = false
 

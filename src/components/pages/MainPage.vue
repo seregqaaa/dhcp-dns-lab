@@ -5,6 +5,7 @@
       <app-card
         v-for="card in group.content"
         :key="card.id"
+        :background="card.background"
         :cardTitle="card.title"
         :isDisabled="card.isDisabled"
         @click.native="onClick(card.id)"
@@ -38,13 +39,15 @@ export default {
               id: getRandomString(),
               title: 'Тест для допуска',
               routeName: ROUTE_NAMES.ACCESS_TEST,
-              isDisabled: false
+              isDisabled: false,
+              background: this.cardColors[0]
             },
             {
               id: getRandomString(),
               title: 'Теория',
               routeName: ROUTE_NAMES.THEORY,
-              isDisabled: false
+              isDisabled: false,
+              background: this.cardColors[1]
             }
           ]
         },
@@ -55,13 +58,15 @@ export default {
               id: getRandomString(),
               title: 'Практика',
               routeName: ROUTE_NAMES.PRACTICE,
-              isDisabled: !this.isAccessTestPassed
+              isDisabled: !this.isAccessTestPassed,
+              background: this.cardColors[2]
             },
             {
               id: getRandomString(),
               title: 'Финальный тест',
               routeName: ROUTE_NAMES.FINAL_TEST,
-              isDisabled: !this.isAccessTestPassed
+              isDisabled: !this.isAccessTestPassed,
+              background: this.cardColors[3]
             }
           ]
         }
@@ -69,7 +74,9 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      cardColors: ['red', 'purple', 'green', 'blue']
+    }
   },
   methods: {
     onClick(cardId) {
