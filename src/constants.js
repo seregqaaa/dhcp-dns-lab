@@ -13,3 +13,15 @@ export const ROUTE_PATHS = {
   FINAL_TEST: '/final-test',
   PRACTICE: '/practice'
 }
+
+export const ACTIONS = {
+  SET_ACCESS_TEST_PASSED_STATUS: 'setAccessTestPassedStatus'
+}
+
+export const MUTATIONS = {
+  SET_ACCESS_TEST_PASSED_STATUS: 'setAccessTestPassedStatus'
+}
+
+export const GETTERS = {
+  GET_ACCESS_TEST_PASSED_STATUS: 'getIsAccessTestPassed'
+}

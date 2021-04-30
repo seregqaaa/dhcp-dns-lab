@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './components/app/App'
 import router from './router'
+import store from './store'
 
 // import beforeUnload from './utils/beforeUnload'
 
@@ -12,5 +13,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

@@ -1,5 +1,8 @@
 <template>
-  <div class="card-container">
+  <div
+    :title="isDisabled && 'Сначала выполните тест для допуска'"
+    :class="`card-container ${isDisabled && 'disabled'}`"
+  >
     <span class="card-text">
       {{ cardTitle }}
     </span>
@@ -13,6 +16,10 @@ export default {
     cardTitle: {
       type: String,
       required: true
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -44,6 +51,11 @@ $cardSize: 250px;
     }
     &:last-child {
       margin-right: 0;
+    }
+    &.disabled {
+      cursor: not-allowed;
+      box-shadow: none;
+      opacity: 0.3;
     }
   }
   &-text {

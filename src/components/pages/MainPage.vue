@@ -2,10 +2,11 @@
   <div class="wrapper">
     <img class="logo" src="@/assets/img/logo_uisi.png" alt="УрТИСИ" />
     <div class="cards-wrapper" v-for="group in groups" :key="group.id">
-      <main-card
+      <app-card
         v-for="card in group.content"
         :key="card.id"
         :cardTitle="card.title"
+        :isDisabled="card.isDisabled"
         @click.native="onClick(card.id)"
       />
     </div>
@@ -13,59 +14,70 @@
 </template>
 
 <script>
-import { ROUTE_NAMES } from '@/constants'
+import { ROUTE_NAMES, GETTERS } from '../../constants'
 
-import { getRandomNumber } from '@/utils/numbers'
+import { getRandomString } from '@/utils/strings'
 
-import MainCard from '@/components/common/MainCard'
+import AppCard from '@/components/common/AppCard'
 
 export default {
   name: 'home',
   components: {
-    'main-card': MainCard
+    'app-card': AppCard
   },
-  data() {
-    return {
-      groups: [
+  computed: {
+    isAccessTestPassed() {
+      return this.$store.getters[GETTERS.GET_ACCESS_TEST_PASSED_STATUS]
+    },
+    groups() {
+      return [
         {
-          id: getRandomNumber(),
+          id: 'group-1',
           content: [
             {
-              id: getRandomNumber(),
+              id: getRandomString(),
               title: 'Тест для допуска',
-              routeName: ROUTE_NAMES.ACCESS_TEST
+              routeName: ROUTE_NAMES.ACCESS_TEST,
+              isDisabled: false
             },
             {
-              id: getRandomNumber(),
+              id: getRandomString(),
               title: 'Теория',
-              routeName: ROUTE_NAMES.THEORY
+              routeName: ROUTE_NAMES.THEORY,
+              isDisabled: false
             }
           ]
         },
         {
-          id: getRandomNumber(),
+          id: 'group-2',
           content: [
             {
-              id: getRandomNumber(),
+              id: getRandomString(),
               title: 'Практика',
-              routeName: ROUTE_NAMES.PRACTICE
+              routeName: ROUTE_NAMES.PRACTICE,
+              isDisabled: !this.isAccessTestPassed
             },
             {
-              id: getRandomNumber(),
+              id: getRandomString(),
               title: 'Финальный тест',
-              routeName: ROUTE_NAMES.FINAL_TEST
+              routeName: ROUTE_NAMES.FINAL_TEST,
+              isDisabled: !this.isAccessTestPassed
             }
           ]
         }
       ]
     }
   },
+  data() {
+    return {}
+  },
   methods: {
     onClick(cardId) {
       const card = this.groups
         .flatMap(group => group.content)
         .find(card => card.id === cardId)
-      this.$router.push({ name: card.routeName })
+
+      if (!card.isDisabled) this.$router.push({ name: card.routeName })
     }
   }
 }

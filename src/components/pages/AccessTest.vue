@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { ACTIONS } from '../../constants'
+
 import ApiManager from '@/api/Manager'
 
 import AppButton from '@/components/common/AppButton'
@@ -43,6 +45,9 @@ export default {
     },
     async onComplete() {
       const res = await ApiManager.accessTest.getResult(this.answers)
+      await this.$store.dispatch(ACTIONS.SET_ACCESS_TEST_PASSED_STATUS, {
+        isAccessTestPassed: true
+      })
       console.log(res)
     }
   },
