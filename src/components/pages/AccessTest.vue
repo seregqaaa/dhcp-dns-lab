@@ -1,7 +1,7 @@
 <template>
   <div class="access-test-wrapper">
     <h1 class="access-test-title">Тест для допуска</h1>
-    <ol class="access-test-list">
+    <ol class="access-test-list" v-if="testItems && testItems.length">
       <test-item
         v-for="item in testItems"
         :key="item.id"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { ACTIONS } from '../../constants'
+import { ACTIONS, GETTERS } from '../../constants'
 
 import ApiManager from '@/api/Manager'
 
@@ -30,16 +30,17 @@ export default {
     'app-button': AppButton,
     'test-item': TestItem
   },
+  computed: {
+    testItems() {
+      return this.$store.getters[GETTERS.GET_ACCESS_TEST]
+    }
+  },
   data() {
     return {
-      testItems: [],
       answers: {}
     }
   },
   methods: {
-    async getTest() {
-      return ApiManager.accessTest.getTest()
-    },
     onAnswer({ itemId, optionId }) {
       this.answers[itemId] = optionId
     },
@@ -52,12 +53,7 @@ export default {
     }
   },
   async created() {
-    try {
-      const fetchedTestItems = await this.getTest()
-      this.testItems = [...fetchedTestItems]
-    } catch (error) {
-      console.error(error)
-    }
+    await this.$store.dispatch(ACTIONS.FETCH_ACCESS_TEST)
   }
 }
 </script>
