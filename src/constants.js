@@ -27,6 +27,6 @@ export const MUTATIONS = {
 
 export const GETTERS = {
   GET_ACCESS_TEST: 'getAccessTest',
-  GET_ACCESS_TEST_RESULR: 'getAccessTestResult',
+  GET_ACCESS_TEST_RESULT: 'getAccessTestResult',
   GET_ACCESS_TEST_PASSED_STATUS: 'getIsAccessTestPassed'
 }

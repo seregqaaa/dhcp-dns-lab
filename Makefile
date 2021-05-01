@@ -1,6 +1,11 @@
-build: yarn.build
-lint: yarn.lint
-serve: yarn.serve
+build:
+	docker-compose build
+
+serve:
+	docker-compose up
+
+down:
+	docker-compose down
 
 yarn.serve:
 	yarn serve
@@ -10,3 +15,6 @@ yarn.build:
 
 yarn.lint:
 	yarn lint
+
+yarn.install:
+	yarn install
