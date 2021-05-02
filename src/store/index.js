@@ -10,6 +10,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     accessTest: [],
+    accessTestResult: 0,
     isAccessTestPassed: false
   },
   actions: {
@@ -19,6 +20,12 @@ export default new Vuex.Store({
     async [ACTIONS.FETCH_ACCESS_TEST](store) {
       const test = await ApiManager.accessTest.getTest()
       store.commit(MUTATIONS.SET_ACCESS_TEST, { test })
+    },
+    async [ACTIONS.SEND_ACCESS_TEST_RESULT](store, payload) {
+      const response = await ApiManager.accessTest.getResult(payload.answers)
+      store.commit(MUTATIONS.SET_ACCESS_TEST_PASSED_STATUS, {
+        isAccessTestPassed: response.isPassed
+      })
     }
   },
   mutations: {

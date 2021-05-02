@@ -19,8 +19,6 @@
 <script>
 import { ACTIONS, GETTERS } from '../../constants'
 
-import ApiManager from '@/api/Manager'
-
 import AppButton from '@/components/common/AppButton'
 import TestItem from '@/components/common/TestItem'
 
@@ -33,6 +31,9 @@ export default {
   computed: {
     testItems() {
       return this.$store.getters[GETTERS.GET_ACCESS_TEST]
+    },
+    isPassed() {
+      return this.$store.getters[GETTERS.GET_ACCESS_TEST_PASSED_STATUS]
     }
   },
   data() {
@@ -45,11 +46,10 @@ export default {
       this.answers[itemId] = optionId
     },
     async onComplete() {
-      const res = await ApiManager.accessTest.getResult(this.answers)
-      await this.$store.dispatch(ACTIONS.SET_ACCESS_TEST_PASSED_STATUS, {
-        isAccessTestPassed: true
+      await this.$store.dispatch(ACTIONS.SEND_ACCESS_TEST_RESULT, {
+        answers: this.answers
       })
-      console.log(res)
+      console.log(this.isPassed)
     }
   },
   async created() {
