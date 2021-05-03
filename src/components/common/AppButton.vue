@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="`btn ${background}`"
+    :class="`btn ${background} ${isDisabled ? 'disabled' : ''}`"
     :style="
       `width: ${width}px; height: ${height}px; border-radius: ${borderRadius}px`
     "
@@ -29,7 +29,11 @@ export default {
     },
     background: {
       type: String,
-      default: 'red'
+      default: 'purple'
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -44,7 +48,8 @@ export default {
   border: none;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.45);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.133s ease 0.1s;
+  opacity: 0.9;
+  transition: opacity 0.3s ease, box-shadow 0.3s ease 0.05s, background 2s ease;
   &-text {
     color: #ffffff;
     opacity: 0.97;
@@ -52,8 +57,13 @@ export default {
     font-weight: 700;
   }
   &:hover {
-    transform: scale(0.98);
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.55);
+    opacity: 1;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.5);
+  }
+  &.disabled {
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.25;
   }
 }
 </style>

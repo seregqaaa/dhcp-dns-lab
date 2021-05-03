@@ -1,13 +1,6 @@
-import { shuffleArray } from '@/utils/arrays'
-
 export default url => ({
   getTest: async () => {
-    const test = await fetch(url).then(data => data.json())
-    return shuffleArray(test).map(item => ({
-      id: item.id,
-      title: item.title,
-      options: shuffleArray(item.options)
-    }))
+    return await fetch(url).then(data => data.json())
   },
   getResult: async answers => {
     return await fetch(url, {

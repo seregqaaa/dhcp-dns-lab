@@ -2,14 +2,17 @@
   <div class="wrapper">
     <img class="logo" src="@/assets/img/logo_uisi.png" alt="УрТИСИ" />
     <div class="cards-wrapper" v-for="group in groups" :key="group.id">
-      <app-card
+      <app-button
         v-for="card in group.content"
         :key="card.id"
+        :width="cardMeasurements.width"
+        :height="cardMeasurements.height"
+        :borderRadius="cardMeasurements.borderRadius"
         :background="card.background"
-        :cardTitle="card.title"
         :isDisabled="card.isDisabled"
         @click.native="onClick(card.id)"
-      />
+        >{{ card.title }}</app-button
+      >
     </div>
   </div>
 </template>
@@ -19,12 +22,12 @@ import { ROUTE_NAMES, GETTERS } from '../../constants'
 
 import { getRandomString } from '@/utils/strings'
 
-import AppCard from '@/components/common/AppCard'
+import AppButton from '@/components/common/AppButton'
 
 export default {
   name: 'home',
   components: {
-    'app-card': AppCard
+    'app-button': AppButton
   },
   computed: {
     isAccessTestPassed() {
@@ -75,7 +78,12 @@ export default {
   },
   data() {
     return {
-      cardColors: ['red', 'purple', 'green', 'blue']
+      cardColors: ['red', 'purple', 'green', 'blue'],
+      cardMeasurements: {
+        width: 250,
+        height: 250,
+        borderRadius: 30
+      }
     }
   },
   methods: {
@@ -91,11 +99,15 @@ export default {
 </script>
 
 <style lang="scss">
+$cardSpacing: 50px;
+
 .logo {
+  z-index: -1;
   position: absolute;
   top: 10px;
   left: 10px;
   opacity: 0.7;
+  transform: scale(0.9);
   transition: opacity 0.3s ease;
   &:hover {
     opacity: 1;
@@ -108,16 +120,22 @@ export default {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 94vh;
+  height: 90vh;
 }
 
 .cards-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: $cardSpacing;
   &:last-child {
     margin-bottom: 0;
+  }
+  & > * {
+    margin-right: $cardSpacing;
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 </style>
