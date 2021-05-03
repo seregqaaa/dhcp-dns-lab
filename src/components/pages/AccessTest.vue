@@ -1,5 +1,5 @@
 <template>
-  <div class="access-test-page">
+  <div class="access-test-page" ref="accessTestPage">
     <div class="access-test-wrapper">
       <h1 class="access-test-title">Тест для допуска</h1>
       <ol class="access-test-list" v-if="testItems && testItems.length">
@@ -15,18 +15,36 @@
       </ol>
       <app-button
         background="red"
+        :class="`${completedClassName} to-right`"
         :isDisabled="!isAllAnswered"
         titleText="Ответьте на все вопросы"
         @click.native="onComplete"
+        @keypress.enter.prevent
+        @keypress.space.prevent
+        @keypress.tab.prevent
         >Подтвердить</app-button
       >
     </div>
-    <div class="progress-wrapper">
+    <div
+      v-if="isProgressRendered"
+      :class="
+        `progress-wrapper ${completedClassName} ${filledClass} ${
+          isAllAnswered ? 'red to-right' : ''
+        }`
+      "
+    >
       <div
-        class="progress-bar red to-right"
+        :class="`progress-bar red to-right ${filledClass}`"
         :style="`width: ${testProgress}%`"
       ></div>
-      <span class="progress-text">{{ testProgress }}%</span>
+      <span
+        :class="
+          `progress-text ${
+            isProgressVisible ? filledClass : ''
+          } ${completedClassName}`
+        "
+        >{{ progressBarText }}</span
+      >
     </div>
   </div>
 </template>
@@ -54,12 +72,21 @@ export default {
     },
     isAllAnswered() {
       return this.testProgress === 100
+    },
+    progressBarText() {
+      return this.isProgressVisible ? this.testProgress + '%' : 'Подтвердить'
+    },
+    filledClass() {
+      return this.isAllAnswered ? 'filled' : ''
     }
   },
   data() {
     return {
       answers: {},
-      testProgress: 0
+      testProgress: 0,
+      isProgressVisible: true,
+      isProgressRendered: true,
+      completedClassName: ''
     }
   },
   methods: {
@@ -84,10 +111,30 @@ export default {
         if (this.testProgress < progress) {
           this.testProgress++
         }
-        if (this.testProgress === progress) {
+        if (this.isAllAnswered) {
           clearInterval(intervalId)
         }
       }, 10)
+    },
+    isAllAnswered: function(isAllAnswered) {
+      if (isAllAnswered) {
+        window.scrollTo(
+          { top: document.documentElement.scrollTop, behavior: 'smooth' },
+          document.body.scrollHeight
+        )
+        const firstTimeout = setTimeout(() => {
+          this.isProgressVisible = false
+          clearTimeout(firstTimeout)
+        }, 300)
+        const secondTimeout = setTimeout(() => {
+          this.completedClassName = 'completed'
+          clearTimeout(secondTimeout)
+        }, 1000)
+        const thirdTimeout = setTimeout(() => {
+          this.isProgressRendered = false
+          clearTimeout(thirdTimeout)
+        }, 2000)
+      }
     }
   },
   async created() {
@@ -98,13 +145,26 @@ export default {
 
 <style lang="scss">
 $redColor: #ff5f6d;
+$bottomSpacing: 5rem;
+
+html {
+  scroll-behavior: smooth;
+}
 
 .access-test {
   &-wrapper {
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding-bottom: 5rem;
+    padding-bottom: $bottomSpacing;
+    & > button.btn {
+      opacity: 0 !important;
+      transition: opacity 0.1s ease-in 0.5s, box-shadow 0.2s ease;
+      &.completed {
+        opacity: 1 !important;
+        z-index: 1;
+      }
+    }
   }
   &-title {
     color: #000000;
@@ -127,19 +187,48 @@ $redColor: #ff5f6d;
   }
 }
 
+:root {
+  --filled-width: 230px;
+}
+
 $progressHeight: 30px;
+$filledHeight: 50px;
+$filledWidth: var(--filled-width);
+$filledRadius: 30px;
+
 .progress {
   &-wrapper {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.1);
+    left: 0;
     bottom: 0;
     height: $progressHeight;
     width: 100%;
+    transition-property: width, border-radius, height, left, bottom, opacity;
+    transition-duration: 1s;
+    transition-delay: 0.6s;
+    transition-timing-function: ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.filled {
+      left: calc(50% - var(--filled-width) / 2);
+      bottom: $bottomSpacing;
+      width: $filledWidth;
+      height: $filledHeight;
+      border-radius: $filledRadius;
+    }
+    &.completed {
+      opacity: 0;
+    }
   }
   &-bar {
     position: absolute;
     height: $progressHeight;
-    transition: width 0.133s linear;
+    transition: width 0.133s linear, opacity 0.2s ease;
+    &.filled {
+      opacity: 0;
+    }
   }
   &-text {
     z-index: 1;
@@ -150,6 +239,16 @@ $progressHeight: 30px;
     text-align: center;
     font-size: 1.4rem;
     font-weight: 700;
+    transition-property: font-size, opacity;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    &.filled {
+      opacity: 0;
+      font-size: 0;
+    }
+    &.completed {
+      font-size: 1.6rem;
+    }
   }
 }
 </style>
