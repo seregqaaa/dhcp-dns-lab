@@ -12,7 +12,6 @@ export default {
 
 <style lang="scss">
 #app {
-  padding: 20px 40px;
   min-height: 100vh;
 }
 </style>

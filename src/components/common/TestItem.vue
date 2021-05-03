@@ -57,6 +57,10 @@ body {
     border-radius: 30px;
     background-color: #ffffff;
     box-shadow: 0 0 2rem 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 3rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
   &-title {
     margin-bottom: 2rem;
