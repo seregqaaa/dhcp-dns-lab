@@ -1,5 +1,6 @@
 <template>
   <button
+    :title="isDisabled ? titleText : ''"
     :class="`btn ${background} ${isDisabled ? 'disabled' : ''}`"
     :style="
       `width: ${width}px; height: ${height}px; border-radius: ${borderRadius}px`
@@ -34,6 +35,10 @@ export default {
     isDisabled: {
       type: Boolean,
       default: false
+    },
+    titleText: {
+      type: String,
+      default: ''
     }
   }
 }

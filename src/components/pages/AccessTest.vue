@@ -12,7 +12,13 @@
         {{ item.title }}
       </test-item>
     </ol>
-    <app-button @click.native="onComplete">Подтвердить</app-button>
+    <app-button
+      background="red"
+      :isDisabled="!isAllAnswered"
+      titleText="Ответьте на все вопросы"
+      @click.native="onComplete"
+      >Подтвердить</app-button
+    >
   </div>
 </template>
 
@@ -38,12 +44,15 @@ export default {
   },
   data() {
     return {
-      answers: {}
+      answers: {},
+      isAllAnswered: false
     }
   },
   methods: {
     onAnswer({ itemId, optionId }) {
       this.answers[itemId] = optionId
+      this.isAllAnswered =
+        Object.keys(this.answers).length === this.testItems.length
     },
     async onComplete() {
       await this.$store.dispatch(ACTIONS.SEND_ACCESS_TEST_RESULT, {

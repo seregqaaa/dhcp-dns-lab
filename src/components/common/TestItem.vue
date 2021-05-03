@@ -67,7 +67,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     & > li {
-      margin-bottom: 1.2rem;
+      margin-bottom: 0.5rem;
       &:last-child {
         margin-bottom: 0;
       }

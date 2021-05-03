@@ -10,6 +10,7 @@
         :borderRadius="cardMeasurements.borderRadius"
         :background="card.background"
         :isDisabled="card.isDisabled"
+        titleText="Сначала выполните тест для допуска"
         @click.native="onClick(card.id)"
         >{{ card.title }}</app-button
       >
