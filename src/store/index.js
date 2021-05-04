@@ -30,7 +30,12 @@ export default new Vuex.Store({
   },
   mutations: {
     [MUTATIONS.SET_ACCESS_TEST](state, payload) {
-      state.accessTest = [...payload.test]
+      const test = payload.test
+      const intervalId = setInterval(() => {
+        test.length
+          ? state.accessTest.push(test.pop())
+          : clearInterval(intervalId)
+      }, 300)
     },
     [MUTATIONS.SET_ACCESS_TEST_PASSED_STATUS](state, payload) {
       state.isAccessTestPassed = payload.isAccessTestPassed

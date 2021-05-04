@@ -1,52 +1,47 @@
 <template>
-  <div class="access-test-page" ref="accessTestPage">
-    <div class="access-test-wrapper">
-      <h1 class="access-test-title">Тест для допуска</h1>
-      <ol class="access-test-list" v-if="testItems && testItems.length">
-        <test-item
-          v-for="item in testItems"
-          :key="item.id"
-          :itemId="item.id"
-          :options="item.options"
-          @on-answer="onAnswer"
+  <transition appear name="fade">
+    <div class="access-test-page" ref="accessTestPage">
+      <div class="access-test-wrapper">
+        <h1 class="access-test-title">Тест для допуска</h1>
+        <transition appear name="fade">
+          <ol class="access-test-list" v-if="testItems && testItems.length">
+            <transition-group appear name="list">
+              <test-item
+                v-for="item in testItems"
+                :key="item.id"
+                :itemId="item.id"
+                :options="item.options"
+                @on-answer="onAnswer"
+              >
+                {{ item.title }}
+              </test-item>
+            </transition-group>
+          </ol>
+          <h3 style="position: absolute; top: 10rem;" v-else>Загрузка</h3>
+        </transition>
+        <app-button
+          background="red"
+          :class="`${completedClassName} to-right`"
+          :isDisabled="!isAllAnswered"
+          titleText="Ответьте на все вопросы"
+          @click.native="onComplete"
+          @keypress.enter.prevent
+          @keypress.space.prevent
+          @keypress.tab.prevent
+          >Подтвердить</app-button
         >
-          {{ item.title }}
-        </test-item>
-      </ol>
-      <app-button
-        background="red"
-        :class="`${completedClassName} to-right`"
-        :isDisabled="!isAllAnswered"
-        titleText="Ответьте на все вопросы"
-        @click.native="onComplete"
-        @keypress.enter.prevent
-        @keypress.space.prevent
-        @keypress.tab.prevent
-        >Подтвердить</app-button
+      </div>
+      <progress-bar
+        v-if="isProgressRendered"
+        :completedClassName="completedClassName"
+        :filledClass="filledClass"
+        :isAllAnswered="isAllAnswered"
+        :isProgressVisible="isProgressVisible"
+        :testProgress="testProgress"
+        >{{ progressBarText }}</progress-bar
       >
     </div>
-    <div
-      v-if="isProgressRendered"
-      :class="
-        `progress-wrapper ${completedClassName} ${filledClass} ${
-          isAllAnswered ? 'red to-right' : ''
-        }`
-      "
-    >
-      <div
-        :class="`progress-bar red to-right ${filledClass}`"
-        :style="`width: ${testProgress}%`"
-      ></div>
-      <span
-        :class="
-          `progress-text ${
-            isProgressVisible ? filledClass : ''
-          } ${completedClassName}`
-        "
-        >{{ progressBarText }}</span
-      >
-    </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -56,12 +51,14 @@ import { ACTIONS, GETTERS } from '../../constants'
 
 import AppButton from '@/components/common/AppButton'
 import TestItem from '@/components/common/TestItem'
+import ProgressBar from '@/components/common/ProgressBar'
 
 export default {
   name: 'access-test',
   components: {
     'app-button': AppButton,
-    'test-item': TestItem
+    'test-item': TestItem,
+    'progress-bar': ProgressBar
   },
   computed: {
     testItems() {
@@ -149,6 +146,30 @@ $bottomSpacing: 5rem;
 
 html {
   scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 .access-test {
@@ -184,71 +205,6 @@ html {
     flex-direction: column;
     align-items: center;
     margin-bottom: 4rem;
-  }
-}
-
-:root {
-  --filled-width: 230px;
-}
-
-$progressHeight: 30px;
-$filledHeight: 50px;
-$filledWidth: var(--filled-width);
-$filledRadius: 30px;
-
-.progress {
-  &-wrapper {
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.1);
-    left: 0;
-    bottom: 0;
-    height: $progressHeight;
-    width: 100%;
-    transition-property: width, border-radius, height, left, bottom, opacity;
-    transition-duration: 1s;
-    transition-delay: 0.6s;
-    transition-timing-function: ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    &.filled {
-      left: calc(50% - var(--filled-width) / 2);
-      bottom: $bottomSpacing;
-      width: $filledWidth;
-      height: $filledHeight;
-      border-radius: $filledRadius;
-    }
-    &.completed {
-      opacity: 0;
-    }
-  }
-  &-bar {
-    position: absolute;
-    height: $progressHeight;
-    transition: width 0.133s linear, opacity 0.2s ease;
-    &.filled {
-      opacity: 0;
-    }
-  }
-  &-text {
-    z-index: 1;
-    width: 100%;
-    color: #ffffff;
-    line-height: $progressHeight;
-    position: absolute;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: 700;
-    transition-property: font-size, opacity;
-    transition-duration: 0.5s;
-    transition-timing-function: ease;
-    &.filled {
-      opacity: 0;
-      font-size: 0;
-    }
-    &.completed {
-      font-size: 1.6rem;
-    }
   }
 }
 </style>
