@@ -30,6 +30,7 @@ export default new Vuex.Store({
   },
   mutations: {
     [MUTATIONS.SET_ACCESS_TEST](state, payload) {
+      state.accessTest = []
       const test = payload.test
       const intervalId = setInterval(() => {
         test.length

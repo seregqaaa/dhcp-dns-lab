@@ -107,6 +107,7 @@ $filledRadius: 30px;
     transition-property: font-size, opacity;
     transition-duration: 0.5s;
     transition-timing-function: ease;
+    cursor: default;
     &.filled {
       opacity: 0;
       font-size: 0;

@@ -4,7 +4,7 @@
       <div class="access-test-wrapper">
         <h1 class="access-test-title">Тест для допуска</h1>
         <transition appear name="fade">
-          <ol class="access-test-list" v-if="testItems && testItems.length">
+          <ol v-if="testItems && testItems.length" class="access-test-list">
             <transition-group appear name="list">
               <test-item
                 v-for="item in testItems"
@@ -17,7 +17,9 @@
               </test-item>
             </transition-group>
           </ol>
-          <h3 style="position: absolute; top: 10rem;" v-else>Загрузка</h3>
+          <h3 v-else style="position: absolute; top: 10rem;">
+            Загрузка
+          </h3>
         </transition>
         <app-button
           background="red"
@@ -111,7 +113,7 @@ export default {
         if (this.isAllAnswered) {
           clearInterval(intervalId)
         }
-      }, 10)
+      }, 15)
     },
     isAllAnswered: function(isAllAnswered) {
       if (isAllAnswered) {
@@ -135,13 +137,15 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch(ACTIONS.FETCH_ACCESS_TEST)
+    if (!this.testItems?.length) {
+      await this.$store.dispatch(ACTIONS.FETCH_ACCESS_TEST)
+    }
   }
 }
 </script>
 
 <style lang="scss">
-$redColor: #ff5f6d;
+$redColor: #ee7d3b;
 $bottomSpacing: 5rem;
 
 html {
@@ -169,7 +173,7 @@ html {
 .list-enter,
 .list-leave-to {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(50px), scale(1.2);
 }
 
 .access-test {
