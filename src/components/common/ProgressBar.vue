@@ -90,7 +90,7 @@ $filledRadius: 30px;
   &-bar {
     position: absolute;
     height: $progressHeight;
-    transition: width 0.133s linear, opacity 0.2s ease;
+    transition: opacity 0.2s ease;
     &.filled {
       opacity: 0;
     }
