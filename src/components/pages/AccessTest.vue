@@ -1,6 +1,10 @@
 <template>
-  <transition appear name="fade">
-    <div class="access-test-page" ref="accessTestPage">
+  <transition-group appear name="fade">
+    <div
+      :class="`access-test-page ${isTestCompleted ? 'completed' : ''}`"
+      key="accessTestPage"
+      ref="accessTestPage"
+    >
       <div class="access-test-wrapper">
         <h1 class="access-test-title">Тест для допуска</h1>
         <transition appear name="fade">
@@ -27,9 +31,6 @@
           :isDisabled="!isAllAnswered"
           titleText="Ответьте на все вопросы"
           @click.native="onComplete"
-          @keypress.enter.prevent
-          @keypress.space.prevent
-          @keypress.tab.prevent
           >Подтвердить</app-button
         >
       </div>
@@ -43,7 +44,39 @@
         >{{ progressBarText }}</progress-bar
       >
     </div>
-  </transition>
+    <app-modal v-if="isTestCompleted" key="modal-window">
+      <transition appear name="fade">
+        <div class="modal-content">
+          <h3 :class="`modal-title${isPassed ? ' passed' : ' failed'}`">
+            {{ `Тест${isPassed ? '' : ' не'} пройден` }}
+          </h3>
+          <div class="modal-buttons">
+            <router-link
+              key="homeLink"
+              :to="{ name: 'home' }"
+              style="border-radius: 25px;"
+            >
+              <app-button
+                :height="homeButtonSize"
+                :width="homeButtonSize"
+                :shadowed="false"
+                ><home-icon
+              /></app-button>
+            </router-link>
+            <app-button
+              v-if="!isPassed"
+              key="restartButton"
+              :height="homeButtonSize"
+              :width="homeButtonSize"
+              :shadowed="false"
+              @click.native="onRestart"
+              ><refresh-icon
+            /></app-button>
+          </div>
+        </div>
+      </transition>
+    </app-modal>
+  </transition-group>
 </template>
 
 <script>
@@ -52,19 +85,26 @@ import Vue from 'vue'
 import { ACTIONS, GETTERS } from '../../constants'
 
 import AppButton from '@/components/common/AppButton'
+import AppModal from '@/components/common/AppModal'
 import TestItem from '@/components/common/TestItem'
 import ProgressBar from '@/components/common/ProgressBar'
+
+import HomeIcon from '@/components/common/icons/HomeIcon'
+import RefreshIcon from '@/components/common/icons/RefreshIcon'
 
 export default {
   name: 'access-test',
   components: {
     'app-button': AppButton,
-    'test-item': TestItem,
-    'progress-bar': ProgressBar
+    'app-modal': AppModal,
+    'home-icon': HomeIcon,
+    'progress-bar': ProgressBar,
+    'refresh-icon': RefreshIcon,
+    'test-item': TestItem
   },
   computed: {
-    testItems() {
-      return this.$store.getters[GETTERS.GET_ACCESS_TEST]
+    filledClass() {
+      return this.isAllAnswered ? 'filled' : ''
     },
     isPassed() {
       return this.$store.getters[GETTERS.GET_ACCESS_TEST_PASSED_STATUS]
@@ -75,28 +115,50 @@ export default {
     progressBarText() {
       return this.isProgressVisible ? this.testProgress + '%' : 'Подтвердить'
     },
-    filledClass() {
-      return this.isAllAnswered ? 'filled' : ''
+    testItems() {
+      return this.$store.getters[GETTERS.GET_ACCESS_TEST]
     }
   },
   data() {
     return {
       answers: {},
-      testProgress: 0,
-      isProgressVisible: true,
+      completedClassName: '',
+      homeButtonSize: 150,
       isProgressRendered: true,
-      completedClassName: ''
+      isProgressVisible: true,
+      isRestartDebounced: false,
+      isTestCompleted: false,
+      testProgress: 0
     }
   },
   methods: {
-    onAnswer({ itemId, optionId }) {
-      Vue.set(this.answers, itemId, optionId)
-    },
     async onComplete() {
       await this.$store.dispatch(ACTIONS.SEND_ACCESS_TEST_RESULT, {
         answers: this.answers
       })
+      this.isTestCompleted = true
       console.log(this.isPassed)
+    },
+    async fetchTest() {
+      await this.$store.dispatch(ACTIONS.FETCH_ACCESS_TEST)
+    },
+    onAnswer({ itemId, optionId }) {
+      Vue.set(this.answers, itemId, optionId)
+    },
+    async onRestart() {
+      if (this.isRestartDebounced) return
+      this.isRestartDebounced = true
+      const timeoutId = setTimeout(() => {
+        this.isRestartDebounced = false
+        clearTimeout(timeoutId)
+      }, 1000)
+      await this.fetchTest()
+      this.answers = {}
+      this.completedClassName = ''
+      this.isProgressRendered = true
+      this.isProgressVisible = true
+      this.isTestCompleted = false
+      this.testProgress = 0
     }
   },
   watch: {
@@ -138,7 +200,7 @@ export default {
   },
   async created() {
     if (!this.testItems?.length) {
-      await this.$store.dispatch(ACTIONS.FETCH_ACCESS_TEST)
+      await this.fetchTest()
     }
   }
 }
@@ -177,6 +239,12 @@ html {
 }
 
 .access-test {
+  &-page {
+    transition: filter 0.5s ease 0.5s;
+    &.completed * {
+      filter: blur(4px);
+    }
+  }
   &-wrapper {
     display: flex;
     align-items: center;
@@ -209,6 +277,27 @@ html {
     flex-direction: column;
     align-items: center;
     margin-bottom: 4rem;
+  }
+}
+
+.modal {
+  &-title {
+    font-size: 1.8rem;
+    text-align: center;
+    padding-bottom: 3rem;
+    &.passed {
+      color: rgb(50, 150, 50);
+    }
+    &.failed {
+      color: rgb(200, 50, 50);
+    }
+  }
+  &-buttons {
+    display: flex;
+    justify-content: center;
+    & > *:first-child:not(:last-child) {
+      padding-right: 30px;
+    }
   }
 }
 </style>

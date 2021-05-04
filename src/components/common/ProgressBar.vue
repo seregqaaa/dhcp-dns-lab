@@ -18,15 +18,15 @@ export default {
       type: String,
       required: true
     },
-    isProgressVisible: {
-      type: Boolean,
-      required: true
-    },
     filledClass: {
       type: String,
       required: true
     },
     isAllAnswered: {
+      type: Boolean,
+      required: true
+    },
+    isProgressVisible: {
       type: Boolean,
       required: true
     },
@@ -36,14 +36,14 @@ export default {
     }
   },
   computed: {
-    wrapperClassName() {
-      return `progress-wrapper ${this.completedClassName} ${this.filledClass} ${
-        this.isAllAnswered ? 'red to-right' : ''
-      }`
-    },
     textClassName() {
       return `progress-text ${this.isProgressVisible ? this.filledClass : ''} ${
         this.completedClassName
+      }`
+    },
+    wrapperClassName() {
+      return `progress-wrapper ${this.completedClassName} ${this.filledClass} ${
+        this.isAllAnswered ? 'red to-right' : ''
       }`
     }
   }

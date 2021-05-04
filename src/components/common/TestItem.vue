@@ -26,12 +26,12 @@ export default {
     'test-option': TestOption
   },
   props: {
-    options: {
-      type: Array,
-      required: true
-    },
     itemId: {
       type: String,
+      required: true
+    },
+    options: {
+      type: Array,
       required: true
     }
   },
