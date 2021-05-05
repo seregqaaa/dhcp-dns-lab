@@ -11,12 +11,10 @@ export default new Vuex.Store({
   state: {
     accessTest: [],
     accessTestResult: 0,
-    isAccessTestPassed: false
+    isAccessTestPassed: false,
+    isModalActive: false
   },
   actions: {
-    [ACTIONS.SET_ACCESS_TEST_PASSED_STATUS](store, payload) {
-      store.commit(MUTATIONS.SET_ACCESS_TEST_PASSED_STATUS, payload)
-    },
     async [ACTIONS.FETCH_ACCESS_TEST](store) {
       const test = await ApiManager.accessTest.getTest()
       store.commit(MUTATIONS.SET_ACCESS_TEST, { test })
@@ -26,6 +24,12 @@ export default new Vuex.Store({
       store.commit(MUTATIONS.SET_ACCESS_TEST_PASSED_STATUS, {
         isAccessTestPassed: response.isPassed
       })
+    },
+    [ACTIONS.SET_ACCESS_TEST_PASSED_STATUS](store, payload) {
+      store.commit(MUTATIONS.SET_ACCESS_TEST_PASSED_STATUS, payload)
+    },
+    [ACTIONS.SET_MODAL_STATUS](store, payload) {
+      store.commit(MUTATIONS.SET_MODAL_STATUS, payload)
     }
   },
   mutations: {
@@ -40,10 +44,14 @@ export default new Vuex.Store({
     },
     [MUTATIONS.SET_ACCESS_TEST_PASSED_STATUS](state, payload) {
       state.isAccessTestPassed = payload.isAccessTestPassed
+    },
+    [MUTATIONS.SET_MODAL_STATUS](state, payload) {
+      state.isModalActive = payload.status
     }
   },
   getters: {
     [GETTERS.GET_ACCESS_TEST]: state => state.accessTest,
-    [GETTERS.GET_ACCESS_TEST_PASSED_STATUS]: state => state.isAccessTestPassed
+    [GETTERS.GET_ACCESS_TEST_PASSED_STATUS]: state => state.isAccessTestPassed,
+    [GETTERS.GET_IS_MODAL_ACTIVE]: state => state.isModalActive
   }
 })

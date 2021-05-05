@@ -139,14 +139,11 @@ export default {
       await this.$store.dispatch(ACTIONS.SEND_ACCESS_TEST_RESULT, {
         answers: this.answers
       })
+      this.setModalStatus(true)
       this.isTestCompleted = true
-      console.log(this.isPassed)
     },
     async fetchTest() {
       await this.$store.dispatch(ACTIONS.FETCH_ACCESS_TEST)
-    },
-    onAnswer({ itemId, optionId }) {
-      Vue.set(this.answers, itemId, optionId)
     },
     async onRestart() {
       if (this.isRestartDebounced) return
@@ -156,12 +153,19 @@ export default {
         clearTimeout(timeoutId)
       }, 1000)
       await this.fetchTest()
+      this.setModalStatus(false)
       this.answers = {}
       this.completedClassName = ''
       this.isProgressRendered = true
       this.isProgressVisible = true
       this.isTestCompleted = false
       this.testProgress = 0
+    },
+    onAnswer({ itemId, optionId }) {
+      Vue.set(this.answers, itemId, optionId)
+    },
+    setModalStatus(status) {
+      this.$store.dispatch(ACTIONS.SET_MODAL_STATUS, { status })
     }
   },
   watch: {
@@ -205,6 +209,9 @@ export default {
     if (!this.testItems?.length) {
       await this.fetchTest()
     }
+  },
+  beforeDestroy() {
+    this.setModalStatus(false)
   }
 }
 </script>
