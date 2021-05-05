@@ -45,10 +45,26 @@ export default {
     position: relative;
     max-width: 600px;
     max-height: 400px;
+    min-width: 400px;
+    min-height: 300px;
     padding: 2rem 4rem;
     border-radius: 30px;
     background-color: #ffffff;
     box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.5);
+  }
+}
+@media (max-width: 480px) {
+  .modal {
+    &-wrapper {
+      align-items: flex-end;
+      padding: 0;
+    }
+    &-body {
+      min-width: 100%;
+      max-width: none;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
   }
 }
 </style>

@@ -213,11 +213,6 @@ export default {
 $redColor: #ee7d3b;
 $bottomSpacing: 5rem;
 
-html {
-  scroll-behavior: smooth;
-  overflow-y: scroll;
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;

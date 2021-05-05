@@ -11,7 +11,7 @@
           :background="card.background"
           :isDisabled="card.isDisabled"
           titleText="Сначала выполните тест для допуска"
-          @click.native="onClick(card.id)"
+          @click.native.prevent="onClick(card.id)"
           >{{ card.title }}</app-button
         >
       </div>
@@ -103,15 +103,6 @@ export default {
 <style lang="scss">
 $cardSpacing: 50px;
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
 .wrapper {
   display: flex;
   justify-content: center;
@@ -119,6 +110,7 @@ $cardSpacing: 50px;
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
+  padding: 2rem;
 }
 
 .cards-wrapper {
@@ -138,13 +130,15 @@ $cardSpacing: 50px;
 }
 
 @media (max-width: 640px) {
+  $vSpacing: 3rem;
+
   .cards-wrapper {
     flex-direction: column;
-    padding-top: 8rem;
+    padding-top: $vSpacing;
     transition: padding 0.3s ease;
     &:last-child {
       padding-top: 0;
-      padding-bottom: 3rem;
+      padding-bottom: $vSpacing;
       margin-bottom: 0;
     }
     & > * {

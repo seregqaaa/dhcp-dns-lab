@@ -6,12 +6,12 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'app-vue'
 }
 </script>
 
-<style lang="scss">
+<style>
 #app {
-  min-height: 100vh;
+  background-image: url('../../assets/img/logo_uisi.png');
 }
 </style>

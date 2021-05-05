@@ -78,4 +78,12 @@ body {
     }
   }
 }
+
+@media (min-width: 870px) {
+  .test-item {
+    &-wrapper {
+      width: 777px;
+    }
+  }
+}
 </style>

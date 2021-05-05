@@ -8,6 +8,11 @@
   outline: none;
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
 ol,
 ul {
   list-style-type: none;
