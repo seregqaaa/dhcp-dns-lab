@@ -52,7 +52,7 @@ body {
 }
 .test-item {
   &-wrapper {
-    width: 777px;
+    max-width: 777px;
     padding: $vSpacing $hSpacing $vSpacing $hSpacing;
     border-radius: 30px;
     background-color: #ffffff;

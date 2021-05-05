@@ -35,18 +35,20 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    padding: 3rem;
+    background-color: rgba(0, 0, 0, 0.3);
   }
   &-body {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    width: 600px;
-    height: 400px;
+    max-width: 600px;
+    max-height: 400px;
     padding: 2rem 4rem;
     border-radius: 30px;
     background-color: #ffffff;
+    box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.5);
   }
 }
 </style>

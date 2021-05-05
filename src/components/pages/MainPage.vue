@@ -1,21 +1,22 @@
 <template>
-  <div class="wrapper">
-    <img class="logo" src="@/assets/img/logo_uisi.png" alt="УрТИСИ" />
-    <div class="cards-wrapper" v-for="group in groups" :key="group.id">
-      <app-button
-        v-for="card in group.content"
-        :key="card.id"
-        :width="cardMeasurements.width"
-        :height="cardMeasurements.height"
-        :borderRadius="cardMeasurements.borderRadius"
-        :background="card.background"
-        :isDisabled="card.isDisabled"
-        titleText="Сначала выполните тест для допуска"
-        @click.native="onClick(card.id)"
-        >{{ card.title }}</app-button
-      >
+  <transition appear name="fade">
+    <div class="wrapper">
+      <div class="cards-wrapper" v-for="group in groups" :key="group.id">
+        <app-button
+          v-for="card in group.content"
+          :key="card.id"
+          :width="cardMeasurements.width"
+          :height="cardMeasurements.height"
+          :borderRadius="cardMeasurements.borderRadius"
+          :background="card.background"
+          :isDisabled="card.isDisabled"
+          titleText="Сначала выполните тест для допуска"
+          @click.native="onClick(card.id)"
+          >{{ card.title }}</app-button
+        >
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -102,17 +103,13 @@ export default {
 <style lang="scss">
 $cardSpacing: 50px;
 
-.logo {
-  z-index: -1;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  opacity: 0.7;
-  transform: scale(0.9);
-  transition: opacity 0.3s ease;
-  &:hover {
-    opacity: 1;
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 
 .wrapper {
@@ -121,7 +118,7 @@ $cardSpacing: 50px;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .cards-wrapper {
@@ -136,6 +133,26 @@ $cardSpacing: 50px;
     margin-right: $cardSpacing;
     &:last-child {
       margin-right: 0;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .cards-wrapper {
+    flex-direction: column;
+    padding-top: 8rem;
+    transition: padding 0.3s ease;
+    &:last-child {
+      padding-top: 0;
+      padding-bottom: 3rem;
+      margin-bottom: 0;
+    }
+    & > * {
+      margin-bottom: $cardSpacing;
+      margin-right: 0;
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 }

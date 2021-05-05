@@ -1,7 +1,10 @@
 <template>
   <transition-group appear name="fade">
     <div
-      :class="`access-test-page ${isTestCompleted ? 'completed' : ''}`"
+      class="access-test-page"
+      :class="{
+        completed: isTestCompleted
+      }"
       key="accessTestPage"
       ref="accessTestPage"
     >
@@ -249,7 +252,7 @@ html {
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding-bottom: $bottomSpacing;
+    padding: 0 2rem $bottomSpacing;
     & > button.btn {
       opacity: 0 !important;
       transition: opacity 0.1s ease-in 0.5s, box-shadow 0.2s ease;
@@ -295,6 +298,10 @@ html {
   &-buttons {
     display: flex;
     justify-content: center;
+    & svg {
+      width: 48px;
+      height: 48px;
+    }
     & > *:first-child:not(:last-child) {
       padding-right: 30px;
     }
