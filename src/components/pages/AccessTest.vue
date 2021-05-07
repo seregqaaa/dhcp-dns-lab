@@ -25,7 +25,10 @@
             </transition-group>
           </ol>
           <h3 v-else style="position: absolute; top: 10rem;">
-            Загрузка
+            <transition appear name="fade">
+              <app-loader v-show="!isLoadCompleted" />
+            </transition>
+            {{ loadingText }}
           </h3>
         </transition>
         <app-button
@@ -94,10 +97,12 @@ import ProgressBar from '@/components/common/ProgressBar'
 
 import HomeIcon from '@/components/common/icons/HomeIcon'
 import RefreshIcon from '@/components/common/icons/RefreshIcon'
+import AppLoader from '@/components/common/AppLoader'
 
 export default {
   name: 'access-test',
   components: {
+    AppLoader,
     'app-button': AppButton,
     'app-modal': AppModal,
     'home-icon': HomeIcon,
@@ -127,10 +132,12 @@ export default {
       answers: {},
       completedClassName: '',
       homeButtonSize: 150,
+      isLoadCompleted: false,
       isProgressRendered: true,
       isProgressVisible: true,
       isRestartDebounced: false,
       isTestCompleted: false,
+      loadingText: 'Загрузка',
       testProgress: 0
     }
   },
@@ -207,7 +214,14 @@ export default {
   },
   async created() {
     if (!this.testItems?.length) {
-      await this.fetchTest()
+      try {
+        await this.fetchTest()
+      } catch (e) {
+        console.error(e)
+        this.loadingText = 'Что-то пошло не так, попробуйте позже'
+      } finally {
+        this.isLoadCompleted = true
+      }
     }
   },
   beforeDestroy() {
@@ -240,7 +254,7 @@ $bottomSpacing: 5rem;
 .list-enter,
 .list-leave-to {
   opacity: 0;
-  transform: translateY(50px), scale(1.2);
+  transform: translateY(50px) scale(1.2);
 }
 
 .access-test {

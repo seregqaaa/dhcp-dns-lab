@@ -7,6 +7,8 @@ serve:
 down:
 	docker-compose down
 
+deps: yarn.install
+
 yarn.serve:
 	yarn serve
 
