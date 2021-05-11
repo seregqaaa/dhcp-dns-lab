@@ -1,6 +1,6 @@
 import accessTest from './modules/accessTest'
 
-const URL = 'http://192.168.0.4:5000'
+const URL = 'https://aqueous-crag-82522.herokuapp.com'
 const accessTestEndpoint = 'access-test'
 
 export default class ApiManager {

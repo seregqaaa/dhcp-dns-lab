@@ -102,7 +102,7 @@ import AppLoader from '@/components/common/AppLoader'
 export default {
   name: 'access-test',
   components: {
-    AppLoader,
+    'app-loader': AppLoader,
     'app-button': AppButton,
     'app-modal': AppModal,
     'home-icon': HomeIcon,
