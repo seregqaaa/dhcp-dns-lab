@@ -6,5 +6,6 @@ module.exports = {
       aggregateTimeout: 300,
       poll: true
     }
-  }
+  },
+  publicPath: process.env.NODE_ENV === 'production' ? '/dhcp-dns-lab/' : '/'
 }
