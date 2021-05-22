@@ -7,13 +7,15 @@ import { fillGradually } from '../utils/arrays'
 
 import ApiManager from '../api/Manager'
 
+import router from '../router'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     accessTest: [],
     accessTestResult: 0,
-    isAccessTestPassed: false,
+    isAccessTestPassed: true,
     isModalActive: false,
     finalTest: [],
     finalTestResult: {}
@@ -30,11 +32,14 @@ export default new Vuex.Store({
       })
     },
     async [ACTIONS.FETCH_FINAL_TEST](store) {
+      if (!store.state.isAccessTestPassed) {
+        router.push({ name: 'home' })
+      }
       const test = await ApiManager.finalTest.getTest()
       store.commit(MUTATIONS.SET_FINAL_TEST, { test })
     },
     async [ACTIONS.SEND_FINAL_TEST_RESULT](store, payload) {
-      const response = await ApiManager.accessTest.getResult(payload.answers)
+      const response = await ApiManager.finalTest.getResult(payload.answers)
       store.commit(MUTATIONS.SET_FINAL_TEST_RESULT, {
         finalTestResult: response.result
       })

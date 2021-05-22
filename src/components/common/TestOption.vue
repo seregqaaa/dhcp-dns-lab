@@ -37,7 +37,7 @@ export default {
 <style lang="scss">
 $radioSize: 20px;
 $radioSpacing: 40px;
-$labelBackground: #f5f5f5;
+$labelBackground: rgba(0, 0, 0, 0.05);
 $redColor: #ee7d3b;
 
 .test-option {

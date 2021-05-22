@@ -13,6 +13,7 @@
             <test-item
               v-for="item in testItems"
               :key="item.id"
+              :isCorrect="testResult[item.id]"
               :itemId="item.id"
               :options="item.options"
               @on-answer="onAnswer"
@@ -61,8 +62,11 @@ export default {
   },
   props: {
     isPassed: {
-      type: Boolean,
-      required: true
+      type: Boolean
+    },
+    testResult: {
+      type: Object,
+      default: () => ({})
     },
     testItems: {
       type: Array,

@@ -1,5 +1,11 @@
 <template>
-  <li class="test-item-wrapper">
+  <li
+    class="test-item-wrapper"
+    :class="{
+      correct: isCorrect,
+      incorrect: isCorrect !== undefined && !isCorrect
+    }"
+  >
     <h3 class="test-item-title">
       <slot></slot>
     </h3>
@@ -33,6 +39,9 @@ export default {
     options: {
       type: Array,
       required: true
+    },
+    isCorrect: {
+      type: Boolean
     }
   },
   methods: {
@@ -60,6 +69,12 @@ body {
     margin-bottom: 3rem;
     &:last-child {
       margin-bottom: 0;
+    }
+    &.correct {
+      background-color: rgb(220, 255, 220);
+    }
+    &.incorrect {
+      background-color: rgb(255, 220, 220);
     }
   }
   &-title {
