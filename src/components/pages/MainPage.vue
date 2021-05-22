@@ -14,6 +14,7 @@
         :borderRadius="cardMeasurements.borderRadius"
         :background="card.background"
         :isDisabled="card.isDisabled"
+        :isCompleted="card.isPassed"
         titleText="Сначала выполните тест для допуска"
         @click.native.prevent="onClick(card.id)"
         >{{ card.title }}</app-button
@@ -44,7 +45,8 @@ export default {
           id: getRandomString(),
           title: 'Тест для допуска',
           routeName: ROUTE_NAMES.ACCESS_TEST,
-          isDisabled: false,
+          isDisabled: this.isAccessTestPassed,
+          isPassed: this.isAccessTestPassed,
           background: this.cardColors[0]
         },
         {
@@ -73,6 +75,7 @@ export default {
   },
   data() {
     return {
+      headerTimeout: null,
       cardColors: ['red', 'purple', 'green', 'blue'],
       cardMeasurements: {
         width: 250,
@@ -89,10 +92,16 @@ export default {
     }
   },
   mounted() {
-    const timeoutId = setTimeout(() => {
-      clearTimeout(timeoutId)
+    this.headerTimeout = setTimeout(() => {
+      clearTimeout(this.headerTimeout)
       this.$refs.pageHeader.classList.add('hidden')
     }, 5000)
+  },
+  beforeDestroy() {
+    if (this.headerTimeout) {
+      clearTimeout(this.headerTimeout)
+      this.headerTimeout = null
+    }
   }
 }
 </script>

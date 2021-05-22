@@ -1,20 +1,34 @@
 <template>
   <button
-    :title="isDisabled ? titleText : ''"
+    :title="
+      isCompleted
+        ? 'Вы уже выполнили тест для допуска'
+        : isDisabled
+        ? titleText
+        : ''
+    "
     :class="className"
     :style="styleString"
     @keypress.enter.prevent
     @keypress.space.prevent
     @keypress.tab.prevent
   >
-    <span class="btn-text">
-      <slot></slot>
-    </span>
+    <transition appear name="fade">
+      <check-icon class="completed-icon" v-if="isCompleted" />
+      <span v-else class="btn-text">
+        <slot></slot>
+      </span>
+    </transition>
   </button>
 </template>
 
 <script>
+import CheckIcon from '@/components/common/icons/CheckIcon'
+
 export default {
+  components: {
+    'check-icon': CheckIcon
+  },
   name: 'app-button',
   props: {
     width: {
@@ -37,6 +51,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isCompleted: {
+      type: Boolean,
+      default: false
+    },
     titleText: {
       type: String,
       default: ''
@@ -48,9 +66,9 @@ export default {
   },
   computed: {
     className() {
-      return `btn ${this.background} ${this.isDisabled ? 'disabled' : ''} ${
-        this.shadowed ? 'shadowed' : ''
-      }`
+      return `btn ${this.background}${this.isDisabled ? ' disabled' : ''}${
+        this.shadowed ? ' shadowed' : ''
+      }${this.isCompleted ? ' completed' : ''}`
     },
     styleString() {
       return `width: ${this.width}px; height: ${this.height}px; border-radius: ${this.borderRadius}px`
@@ -92,5 +110,14 @@ export default {
     box-shadow: none;
     opacity: 0.25;
   }
+}
+
+$iconSize: 100px;
+
+.completed-icon {
+  z-index: 1;
+  position: absolute;
+  height: $iconSize;
+  width: $iconSize;
 }
 </style>
