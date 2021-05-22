@@ -1,6 +1,11 @@
 <template>
   <transition appear name="fade">
     <div class="wrapper">
+      <header class="header" ref="pageHeader">
+        <h1 class="header-title">
+          Принципы работы DHCP, DNS и почтового серверов
+        </h1>
+      </header>
       <app-button
         v-for="card in cards"
         :key="card.id"
@@ -82,11 +87,49 @@ export default {
 
       if (!card.isDisabled) this.$router.push({ name: card.routeName })
     }
+  },
+  mounted() {
+    const timeoutId = setTimeout(() => {
+      clearTimeout(timeoutId)
+      this.$refs.pageHeader.classList.add('hidden')
+    }, 5000)
   }
 }
 </script>
 
 <style lang="scss">
+$headerBorderRadius: 25px;
+
+.header {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  opacity: 0.8;
+  background: #ffe259;
+  background: -webkit-linear-gradient(to right, #ffa751, #ffe259);
+  background: linear-gradient(to right, #ffa751, #ffe259);
+  border-bottom-left-radius: $headerBorderRadius;
+  border-bottom-right-radius: $headerBorderRadius;
+  transition: top 0.2s ease, opacity 0.2s ease;
+  &-title {
+    font-size: 1.6rem;
+    text-align: center;
+    color: #ffffff;
+    transition: font-size 0.2s ease;
+  }
+  &.hidden {
+    top: -50px;
+    opacity: 0.3;
+    &:hover {
+      top: 0;
+      opacity: 0.8;
+    }
+  }
+}
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -94,7 +137,23 @@ export default {
   flex-flow: row wrap;
   width: 100%;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 8rem 2rem;
   gap: 3rem;
+  transition: padding 0.2s ease;
+}
+
+@media (max-width: 600px) {
+  .header {
+    &-title {
+      font-size: 1.2rem;
+    }
+    &.hidden {
+      top: -70px;
+    }
+  }
+
+  .wrapper {
+    padding: 10rem 2rem;
+  }
 }
 </style>
