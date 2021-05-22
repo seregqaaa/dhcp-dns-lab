@@ -61,7 +61,7 @@ export default new Vuex.Store({
       state.finalTest = []
       fillGradually(payload.test, state.finalTest)
     },
-    [MUTATION.SET_FINAL_TEST_RESULT](state, payload) {
+    [MUTATIONS.SET_FINAL_TEST_RESULT](state, payload) {
       state.finalTestResult = { ...payload.finalTestResult }
     }
   },
