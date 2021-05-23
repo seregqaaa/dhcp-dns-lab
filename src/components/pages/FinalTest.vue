@@ -5,49 +5,40 @@
       testTitle="Финальный тест"
       :testItems="testItems"
       :testResult="testResult"
+      :submitButtonText="submitButtonText"
       @on-complete="onComplete"
       @on-test-completed-change="onTestCompletedChange"
     ></app-test>
-    <!-- <app-modal v-if="isTestCompleted && isModalActive" key="modal-window">
+    <app-modal v-if="isTestCompleted && isModalActive" key="modal-window">
       <transition appear name="fade">
         <div class="modal-content">
           <h3 :class="`modal-title${isPassed ? ' passed' : ' failed'}`">
             {{ `Тест${isPassed ? '' : ' не'} пройден` }}
           </h3>
-          <div class="modal-buttons">
-            <router-link
-              key="homeLink"
-              :to="{ name: 'home' }"
-              style="border-radius: 25px;"
-            >
-              <app-button
-                :height="homeButtonSize"
-                :width="homeButtonSize"
-                :shadowed="false"
-                ><home-icon
-              /></app-button>
-            </router-link>
+          <div class="modal-options">
+            <app-button v-if="isPassed" background="red">
+              На главную
+            </app-button>
             <app-button
-              v-if="!isPassed"
-              key="restartButton"
-              :height="homeButtonSize"
-              :width="homeButtonSize"
-              :shadowed="false"
-              @click.native="onRestart"
-              ><refresh-icon
-            /></app-button>
+              v-else
+              background="red"
+              :width="320"
+              @click.native="onLookErrors"
+            >
+              Посмотреть результат
+            </app-button>
           </div>
         </div>
       </transition>
-    </app-modal> -->
+    </app-modal>
   </transition-group>
 </template>
 
 <script>
 import { ACTIONS, GETTERS } from '../../constants'
 
-// import AppButton from '@/components/common/AppButton'
-// import AppModal from '@/components/common/AppModal'
+import AppButton from '@/components/common/AppButton'
+import AppModal from '@/components/common/AppModal'
 import AppTest from '@/components/common/AppTest'
 
 // import HomeIcon from '@/components/common/icons/HomeIcon'
@@ -56,8 +47,8 @@ import AppTest from '@/components/common/AppTest'
 export default {
   name: 'final-test',
   components: {
-    // 'app-button': AppButton,
-    // 'app-modal': AppModal,
+    'app-button': AppButton,
+    'app-modal': AppModal,
     // 'home-icon': HomeIcon,
     // 'refresh-icon': RefreshIcon,
     'app-test': AppTest
@@ -71,6 +62,19 @@ export default {
     },
     testResult() {
       return this.$store.getters[GETTERS.GET_FINAL_TEST_RESULT]
+    },
+    isPassed() {
+      return this.$store.getters[GETTERS.GET_FINAL_TEST_PASSED_STATUS]
+    },
+    attemptsCount() {
+      return this.$store.getters[GETTERS.GET_FINAL_TEST_ATTEMPTS_COUNTER]
+    },
+    submitButtonText() {
+      return this.attemptsCount === 0
+        ? 'На главную'
+        : Object.keys(this.testResult).length && !this.isPassed
+        ? 'Повторить'
+        : undefined
     }
   },
   data() {
@@ -81,10 +85,18 @@ export default {
   },
   methods: {
     async onComplete(payload) {
-      await this.$store.dispatch(ACTIONS.SEND_FINAL_TEST_RESULT, {
-        answers: payload.answers
-      })
-      // this.setModalStatus(true)
+      if (!this.submitButtonText) {
+        await this.$store.dispatch(ACTIONS.SEND_FINAL_TEST_RESULT, {
+          answers: payload.answers
+        })
+        this.setModalStatus(true)
+      } else {
+        if (this.attemptsCount) {
+          await this.onRestart()
+        } else {
+          this.$router.push({ name: 'home' })
+        }
+      }
     },
     async fetchTest() {
       await this.$store.dispatch(ACTIONS.FETCH_FINAL_TEST)
@@ -94,12 +106,23 @@ export default {
       this.$root.$emit('on-test-restart')
       this.setModalStatus(false)
     },
+    onLookErrors() {
+      this.setModalStatus(false)
+    },
     onTestCompletedChange(isTestCompleted) {
       this.isTestCompleted = isTestCompleted
     },
-
     setModalStatus(status) {
       this.$store.dispatch(ACTIONS.SET_MODAL_STATUS, { status })
+    }
+  },
+  watch: {
+    attemptsCount: function(count) {
+      if (!count) {
+        this.$store.dispatch(ACTIONS.SET_FINAL_TEST_DISABLED_UNTIL, {
+          until: Date.now() + 1000 * 60 * 5
+        })
+      }
     }
   },
   async created() {
@@ -113,6 +136,7 @@ export default {
   },
   beforeDestroy() {
     this.setModalStatus(false)
+    this.onRestart()
   }
 }
 </script>
@@ -154,17 +178,6 @@ $bottomSpacing: 5rem;
     }
     &.failed {
       color: rgb(200, 50, 50);
-    }
-  }
-  &-buttons {
-    display: flex;
-    justify-content: center;
-    & svg {
-      width: 48px;
-      height: 48px;
-    }
-    & > *:first-child:not(:last-child) {
-      padding-right: 30px;
     }
   }
 }

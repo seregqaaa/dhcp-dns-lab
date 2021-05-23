@@ -20,7 +20,8 @@ export const ACTIONS = {
   SET_ACCESS_TEST_PASSED_STATUS: 'setAccessTestPassedStatus',
   SET_MODAL_STATUS: 'setModalStatus',
   FETCH_FINAL_TEST: 'fetchFinalTest',
-  SEND_FINAL_TEST_RESULT: 'sendFinalTestResult'
+  SEND_FINAL_TEST_RESULT: 'sendFinalTestResult',
+  SET_FINAL_TEST_DISABLED_UNTIL: 'setFinalTestDisabledUntil'
 }
 
 export const MUTATIONS = {
@@ -28,7 +29,8 @@ export const MUTATIONS = {
   SET_ACCESS_TEST_PASSED_STATUS: 'setAccessTestPassedStatus',
   SET_MODAL_STATUS: 'setModalStatus',
   SET_FINAL_TEST: 'setFinalTest',
-  SET_FINAL_TEST_RESULT: 'setFinalTestResult'
+  SET_FINAL_TEST_RESULT: 'setFinalTestResult',
+  SET_FINAL_TEST_DISABLED_UNTIL: 'setFinalTestDisabledUntil'
 }
 
 export const GETTERS = {
@@ -36,5 +38,8 @@ export const GETTERS = {
   GET_ACCESS_TEST_PASSED_STATUS: 'getIsAccessTestPassed',
   GET_IS_MODAL_ACTIVE: 'getIsModalActive',
   GET_FINAL_TEST: 'getFinalTest',
-  GET_FINAL_TEST_RESULT: 'getFinalTestResult'
+  GET_FINAL_TEST_RESULT: 'getFinalTestResult',
+  GET_FINAL_TEST_PASSED_STATUS: 'getFinalTestPassedStatus',
+  GET_FINAL_TEST_ATTEMPTS_COUNTER: 'getFinalTestAttemptsCounter',
+  GET_FINAL_TEST_DISABLED_UNTIL: 'getFinalTestDisabledUntil'
 }

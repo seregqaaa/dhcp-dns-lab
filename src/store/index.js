@@ -17,8 +17,11 @@ export default new Vuex.Store({
     accessTestResult: 0,
     isAccessTestPassed: true,
     isModalActive: false,
+    isFinalTestPassed: false,
     finalTest: [],
-    finalTestResult: {}
+    finalTestResult: {},
+    attemptsCount: 2,
+    disabledUntil: null
   },
   actions: {
     async [ACTIONS.FETCH_ACCESS_TEST](store) {
@@ -41,7 +44,8 @@ export default new Vuex.Store({
     async [ACTIONS.SEND_FINAL_TEST_RESULT](store, payload) {
       const response = await ApiManager.finalTest.getResult(payload.answers)
       store.commit(MUTATIONS.SET_FINAL_TEST_RESULT, {
-        finalTestResult: response.result
+        finalTestResult: response.result,
+        isPassed: response.isPassed
       })
     },
     [ACTIONS.SET_ACCESS_TEST_PASSED_STATUS](store, payload) {
@@ -49,6 +53,9 @@ export default new Vuex.Store({
     },
     [ACTIONS.SET_MODAL_STATUS](store, payload) {
       store.commit(MUTATIONS.SET_MODAL_STATUS, payload)
+    },
+    [ACTIONS.SET_FINAL_TEST_DISABLED_UNTIL](store, payload) {
+      store.commit(MUTATIONS.SET_FINAL_TEST_DISABLED_UNTIL, payload)
     }
   },
   mutations: {
@@ -64,10 +71,17 @@ export default new Vuex.Store({
     },
     [MUTATIONS.SET_FINAL_TEST](state, payload) {
       state.finalTest = []
+      state.finalTestResult = {}
+      state.isFinalTestPassed = false
       fillGradually(payload.test, state.finalTest)
     },
     [MUTATIONS.SET_FINAL_TEST_RESULT](state, payload) {
+      state.attemptsCount -= 1
       state.finalTestResult = { ...payload.finalTestResult }
+      state.isFinalTestPassed = payload.isPassed
+    },
+    [MUTATIONS.SET_FINAL_TEST_DISABLED_UNTIL](state, payload) {
+      state.disabledUntil = payload.until
     }
   },
   getters: {
@@ -75,6 +89,9 @@ export default new Vuex.Store({
     [GETTERS.GET_ACCESS_TEST_PASSED_STATUS]: state => state.isAccessTestPassed,
     [GETTERS.GET_IS_MODAL_ACTIVE]: state => state.isModalActive,
     [GETTERS.GET_FINAL_TEST]: state => state.finalTest,
-    [GETTERS.GET_FINAL_TEST_RESULT]: state => state.finalTestResult
+    [GETTERS.GET_FINAL_TEST_RESULT]: state => state.finalTestResult,
+    [GETTERS.GET_FINAL_TEST_PASSED_STATUS]: state => state.isFinalTestPassed,
+    [GETTERS.GET_FINAL_TEST_ATTEMPTS_COUNTER]: state => state.attemptsCount,
+    [GETTERS.GET_FINAL_TEST_DISABLED_UNTIL]: state => state.disabledUntil
   }
 })

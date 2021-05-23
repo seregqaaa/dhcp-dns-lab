@@ -29,7 +29,7 @@
         :isDisabled="!isAllAnswered"
         titleText="Ответьте на все вопросы"
         @click.native="onComplete"
-        >Подтвердить</app-button
+        >{{ submitButtonText }}</app-button
       >
     </div>
     <progress-bar
@@ -75,6 +75,10 @@ export default {
     testTitle: {
       type: String,
       required: true
+    },
+    submitButtonText: {
+      type: String,
+      default: 'Подтвердить'
     }
   },
   computed: {
