@@ -15,7 +15,7 @@ export default new Vuex.Store({
   state: {
     accessTest: [],
     accessTestResult: 0,
-    isAccessTestPassed: true,
+    isAccessTestPassed: false,
     isModalActive: false,
     isFinalTestPassed: false,
     finalTest: [],
