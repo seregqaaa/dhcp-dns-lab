@@ -1,5 +1,4 @@
-build:
-	docker-compose build
+build: yarn.build
 
 serve:
 	docker-compose up
