@@ -47,7 +47,7 @@
 <script>
 import Vue from 'vue'
 
-import { GETTERS } from '../../constants'
+import { GETTERS } from '@/constants'
 
 import AppButton from '@/components/common/AppButton'
 import ProgressBar from '@/components/common/ProgressBar'

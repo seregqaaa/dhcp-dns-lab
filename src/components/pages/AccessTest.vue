@@ -1,6 +1,7 @@
 <template>
   <transition-group appear name="fade">
     <app-test
+      v-if="testItems && testItems.length"
       key="app-test"
       testTitle="Тест для допуска"
       :isPassed="isPassed"
@@ -8,6 +9,7 @@
       @on-complete="onComplete"
       @on-test-completed-change="onTestCompletedChange"
     ></app-test>
+    <app-loader key="loader" v-else></app-loader>
     <app-modal v-if="isTestCompleted && isModalActive" key="modal-window">
       <transition appear name="fade">
         <div class="modal-content">
@@ -47,6 +49,7 @@
 import { ACTIONS, GETTERS } from '../../constants'
 
 import AppButton from '@/components/common/AppButton'
+import AppLoader from "@/components/common/AppLoader"
 import AppModal from '@/components/common/AppModal'
 import AppTest from '@/components/common/AppTest'
 
@@ -56,11 +59,13 @@ import RefreshIcon from '@/components/common/icons/RefreshIcon'
 export default {
   name: 'access-test',
   components: {
+    AppLoader,
     'app-button': AppButton,
     'app-modal': AppModal,
     'home-icon': HomeIcon,
     'refresh-icon': RefreshIcon,
-    'app-test': AppTest
+    'app-test': AppTest,
+    'app-loader': AppLoader
   },
   computed: {
     isPassed() {

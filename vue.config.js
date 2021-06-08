@@ -7,5 +7,5 @@ module.exports = {
       poll: true
     }
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/dhcp-dns-lab/' : '/'
+  publicPath: process.env.NODE_ENV === 'production' ? '/dhcp-dns-lab/' : '/',
 }

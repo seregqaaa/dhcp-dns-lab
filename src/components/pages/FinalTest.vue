@@ -1,6 +1,7 @@
 <template>
   <transition-group appear name="fade">
     <app-test
+      v-if="testItems && testItems.length"
       key="app-test"
       testTitle="Финальный тест"
       :testItems="testItems"
@@ -9,6 +10,7 @@
       @on-complete="onComplete"
       @on-test-completed-change="onTestCompletedChange"
     ></app-test>
+    <app-loader key="loader" v-else></app-loader>
     <app-modal v-if="isTestCompleted && isModalActive" key="modal-window">
       <transition appear name="fade">
         <div class="modal-content">
