@@ -42,6 +42,7 @@
         </div>
       </transition>
     </app-modal>
+    <app-loader key="loader" v-if="isLoaderVisible"></app-loader>
   </transition-group>
 </template>
 
@@ -81,14 +82,17 @@ export default {
   data() {
     return {
       isTestCompleted: false,
-      homeButtonSize: 150
+      homeButtonSize: 150,
+      isLoaderVisible: false,
     }
   },
   methods: {
     async onComplete(payload) {
+      this.isLoaderVisible = true;
       await this.$store.dispatch(ACTIONS.SEND_ACCESS_TEST_RESULT, {
         answers: payload.answers
       })
+      this.isLoaderVisible = false;
       this.setModalStatus(true)
     },
     async fetchTest() {
