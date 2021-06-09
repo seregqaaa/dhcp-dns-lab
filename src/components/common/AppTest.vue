@@ -78,7 +78,7 @@ export default {
     },
     submitButtonText: {
       type: String,
-      default: 'Подтвердить'
+      default: 'Проверить'
     }
   },
   computed: {
