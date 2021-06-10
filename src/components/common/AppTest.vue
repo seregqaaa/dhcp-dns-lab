@@ -89,7 +89,7 @@ export default {
       return this.testProgress === 100
     },
     progressBarText() {
-      return this.isProgressVisible ? this.testProgress + '%' : 'Подтвердить'
+      return this.isProgressVisible ? this.testProgress + '%' : 'Проверить'
     },
     isModalActive() {
       return this.$store.getters[GETTERS.GET_IS_MODAL_ACTIVE]
