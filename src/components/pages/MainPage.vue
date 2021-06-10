@@ -166,6 +166,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~assets/transition.scss';
+
 $headerBorderRadius: 25px;
 
 .header {

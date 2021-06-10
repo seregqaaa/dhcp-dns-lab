@@ -33,6 +33,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~assets/transition.scss';
+
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.3) transparent;

@@ -1,128 +1,142 @@
 <template>
-  <transition name="fade" appear>
+  <transition appear name="fade" mode="out-in">
     <div class="theory-wrapper">
-      <nav class="theory-nav">
-        <ul class="theory-nav-list">
-          <li
-            class="theory-nav-item"
-            v-for="item in menuItems"
-            :key="item.link"
-          >
-            <router-link
-              :to="`#${item.link}`"
-              @click.native="scrollFix(item.link)"
-              >{{ item.title }}</router-link
+      <transition-group appear name="fade" mode="out-in">
+        <nav key="theory-menu" class="theory-nav">
+          <ul class="theory-nav-list">
+            <li
+              class="theory-nav-item"
+              v-for="item in menuItems"
+              :key="item.link"
             >
-            <ul class="theory-nav-sub-list">
-              <li
-                class="theory-nav-sub-item"
-                v-for="subItem in item.sub"
-                :key="subItem.link"
+              <router-link
+                :to="`#${item.link}`"
+                @click.native="scrollFix(item.link)"
+                >{{ item.title }}</router-link
+              >
+              <ul class="theory-nav-sub-list">
+                <li
+                  class="theory-nav-sub-item"
+                  v-for="subItem in item.sub"
+                  :key="subItem.link"
+                >
+                  <router-link
+                    :to="`#${subItem.link}`"
+                    @click.native="scrollFix(subItem.link)"
+                    >{{ subItem.title }}</router-link
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <main key="main-content" class="theory-content">
+          <section class="theory-section">
+            <h3 :id="content.dhcp.link" class="theory-section-header">
+              <router-link
+                :to="`#${content.dhcp.link}`"
+                @click.native="scrollFix(content.dhcp.link)"
+                >{{ content.dhcp.title }}</router-link
+              >
+            </h3>
+            <div class="theory-section-content">
+              <h4
+                :id="content.dhcp.section.whatIs.link"
+                class="theory-section-content-header"
               >
                 <router-link
-                  :to="`#${subItem.link}`"
-                  @click.native="scrollFix(subItem.link)"
-                  >{{ subItem.title }}</router-link
+                  :to="`#${content.dhcp.section.whatIs.link}`"
+                  @click.native="scrollFix(content.dhcp.section.whatIs.link)"
+                  >{{ content.dhcp.section.whatIs.title }}</router-link
                 >
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-      <main class="theory-content">
-        <section class="theory-section">
-          <h3 :id="content.dhcp.link" class="theory-section-header">
-            <router-link
-              :to="`#${content.dhcp.link}`"
-              @click.native="scrollFix(content.dhcp.link)"
-              >{{ content.dhcp.title }}</router-link
-            >
-          </h3>
-          <div class="theory-section-content">
-            <h4
-              :id="content.dhcp.section.whatIs.link"
-              class="theory-section-content-header"
-            >
-              <router-link
-                :to="`#${content.dhcp.section.whatIs.link}`"
-                @click.native="scrollFix(content.dhcp.section.whatIs.link)"
-                >{{ content.dhcp.section.whatIs.title }}</router-link
+              </h4>
+              <p
+                v-for="(text, index) in content.dhcp.section.whatIs.data"
+                :key="(index + 1) * Math.random()"
               >
-            </h4>
-            <p
-              v-for="(text, index) in content.dhcp.section.whatIs.data"
-              :key="(index + 1) * Math.random()"
-            >
-              {{ text }}
-            </p>
-            <h4
-              :id="content.dhcp.section.workExample.link"
-              class="theory-section-content-header"
-            >
-              <router-link
-                :to="`#${content.dhcp.section.workExample.link}`"
-                @click.native="scrollFix(content.dhcp.section.workExample.link)"
-                >{{ content.dhcp.section.workExample.title }}</router-link
+                {{ text }}
+              </p>
+              <h4
+                :id="content.dhcp.section.workExample.link"
+                class="theory-section-content-header"
               >
-            </h4>
-            <p
-              v-for="(text, index) in content.dhcp.section.workExample.data"
-              :key="(index + 1) * Math.random()"
-            >
-              {{ text }}
-            </p>
-          </div>
-        </section>
-        <section class="theory-section">
-          <h3 :id="content.dns.link" class="theory-section-header">
-            <router-link
-              :to="`#${content.dns.link}`"
-              @click.native="scrollFix(content.dns.link)"
-              >{{ content.dns.title }}</router-link
-            >
-          </h3>
-          <div class="theory-section-content">
-            <h4
-              :id="content.dns.section.whatIs.link"
-              class="theory-section-content-header"
-            >
-              <router-link
-                :to="`#${content.dns.section.whatIs.link}`"
-                @click.native="scrollFix(content.dns.section.whatIs.link)"
-                >{{ content.dns.section.whatIs.title }}</router-link
+                <router-link
+                  :to="`#${content.dhcp.section.workExample.link}`"
+                  @click.native="
+                    scrollFix(content.dhcp.section.workExample.link)
+                  "
+                  >{{ content.dhcp.section.workExample.title }}</router-link
+                >
+              </h4>
+              <p
+                v-for="(text, index) in content.dhcp.section.workExample.data"
+                :key="(index + 1) * Math.random()"
               >
-            </h4>
-          </div>
-        </section>
-        <section class="theory-section">
-          <h3 :id="content.mail.link" class="theory-section-header">
-            <router-link
-              :to="`#${content.mail.link}`"
-              @click.native="scrollFix(content.mail.link)"
-              >{{ content.mail.title }}</router-link
-            >
-          </h3>
-          <div class="theory-section-content">
-            <h4
-              :id="content.mail.section.whatIs.link"
-              class="theory-section-content-header"
-            >
+                {{ text }}
+              </p>
+            </div>
+          </section>
+          <section class="theory-section">
+            <h3 :id="content.dns.link" class="theory-section-header">
               <router-link
-                :to="`#${content.mail.section.whatIs.link}`"
-                @click.native="scrollFix(content.mail.section.whatIs.link)"
-                >{{ content.mail.section.whatIs.title }}</router-link
+                :to="`#${content.dns.link}`"
+                @click.native="scrollFix(content.dns.link)"
+                >{{ content.dns.title }}</router-link
               >
-            </h4>
-          </div>
-        </section>
-      </main>
+            </h3>
+            <div class="theory-section-content">
+              <h4
+                :id="content.dns.section.whatIs.link"
+                class="theory-section-content-header"
+              >
+                <router-link
+                  :to="`#${content.dns.section.whatIs.link}`"
+                  @click.native="scrollFix(content.dns.section.whatIs.link)"
+                  >{{ content.dns.section.whatIs.title }}</router-link
+                >
+              </h4>
+            </div>
+          </section>
+          <section class="theory-section">
+            <h3 :id="content.mail.link" class="theory-section-header">
+              <router-link
+                :to="`#${content.mail.link}`"
+                @click.native="scrollFix(content.mail.link)"
+                >{{ content.mail.title }}</router-link
+              >
+            </h3>
+            <div class="theory-section-content">
+              <h4
+                :id="content.mail.section.whatIs.link"
+                class="theory-section-content-header"
+              >
+                <router-link
+                  :to="`#${content.mail.section.whatIs.link}`"
+                  @click.native="scrollFix(content.mail.section.whatIs.link)"
+                  >{{ content.mail.section.whatIs.title }}</router-link
+                >
+              </h4>
+            </div>
+          </section>
+        </main>
+        <home-icon
+          key="home-icon"
+          class="theory-home"
+          @click.native="onHomeClick"
+        ></home-icon>
+      </transition-group>
     </div>
   </transition>
 </template>
 
 <script>
+import HomeIcon from '@/components/common/icons/HomeIcon.vue'
+
 export default {
   name: 'theory',
+  components: {
+    'home-icon': HomeIcon
+  },
   computed: {
     menuItems() {
       return Object.values(this.content).map(content => ({
@@ -191,12 +205,22 @@ export default {
             }
           }
         }
-      }
+      },
+      isHomeButtonDebounced: false
     }
   },
   methods: {
     scrollFix(hashbang) {
       location.hash = `#${hashbang}`
+    },
+    onHomeClick() {
+      if (this.isHomeButtonDebounced) return
+      this.isHomeButtonDebounced = true
+      const timeoutId = setTimeout(() => {
+        this.isHomeButtonDebounced = false
+        clearTimeout(timeoutId)
+      }, 1000)
+      this.$router.push({ name: 'home' })
     }
   },
   mounted() {
@@ -206,6 +230,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~assets/transition.scss';
+
 :root {
   --nav-width: 300px;
   --nav-spacing: 20px;
@@ -219,8 +245,27 @@ $transitionFunc: ease;
 $mainBg: rgba(255, 255, 255, 0.95);
 $mainShadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 $mainBorderRadius: 10px;
+$homeButtonSize: 60px;
 
 .theory {
+  &-home {
+    bottom: 20px;
+    right: 20px;
+    position: fixed;
+    z-index: 10;
+    padding: 15px;
+    width: $homeButtonSize;
+    height: $homeButtonSize;
+    background-color: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.18);
+    color: black;
+    cursor: pointer;
+    transition: background-color $transitionTime $transitionFunc;
+    &:hover {
+      background-color: #f9f9f9;
+    }
+  }
   &-wrapper {
     padding: 20px 30px 20px 0;
     transition: padding $transitionTime $transitionFunc;
@@ -331,7 +376,13 @@ $mainBorderRadius: 10px;
 }
 
 @media (max-width: 950px) {
+  $homeButtonSize: 40px;
   .theory {
+    &-home {
+      width: $homeButtonSize;
+      height: $homeButtonSize;
+      padding: 8px;
+    }
     &-wrapper {
       padding: 0;
     }

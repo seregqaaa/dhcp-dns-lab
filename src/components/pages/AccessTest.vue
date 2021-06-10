@@ -127,31 +127,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~assets/transition.scss';
+
 $redColor: #ee7d3b;
 $bottomSpacing: 5rem;
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.list-item {
-  display: inline-block;
-  margin-right: 10px;
-}
-.list-enter-active,
-.list-leave-active {
-  transition: all 1s;
-}
-.list-enter,
-.list-leave-to {
-  opacity: 0;
-  transform: translateY(50px) scale(1.2);
-}
 
 .modal {
   &-title {
