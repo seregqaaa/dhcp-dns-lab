@@ -50,7 +50,7 @@
 import { ACTIONS, GETTERS } from '../../constants'
 
 import AppButton from '@/components/common/AppButton'
-import AppLoader from "@/components/common/AppLoader"
+import AppLoader from '@/components/common/AppLoader'
 import AppModal from '@/components/common/AppModal'
 import AppTest from '@/components/common/AppTest'
 
@@ -83,16 +83,16 @@ export default {
     return {
       isTestCompleted: false,
       homeButtonSize: 150,
-      isLoaderVisible: false,
+      isLoaderVisible: false
     }
   },
   methods: {
     async onComplete(payload) {
-      this.isLoaderVisible = true;
+      this.isLoaderVisible = true
       await this.$store.dispatch(ACTIONS.SEND_ACCESS_TEST_RESULT, {
         answers: payload.answers
       })
-      this.isLoaderVisible = false;
+      this.isLoaderVisible = false
       this.setModalStatus(true)
     },
     async fetchTest() {

@@ -10,6 +10,15 @@ const DEFAULT_TITLE = 'Принципы работы DHCP, DNS и почтово
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
+  scrollBehavior(to, _, savedPosition) {
+    if (to.hash) {
+      return { selector: to.hash }
+    } else if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
   routes: [
     {
       path: ROUTE_PATHS.HOME,
