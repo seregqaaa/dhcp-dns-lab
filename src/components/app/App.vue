@@ -33,6 +33,27 @@ export default {
 </script>
 
 <style lang="scss">
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  &-track {
+    background-color: transparent;
+  }
+  &-thumb {
+    background-color: #d6dee1;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    &:hover {
+      background-color: #a8bbbf;
+    }
+  }
+}
+
 .backplate {
   position: fixed;
   z-index: -1;
