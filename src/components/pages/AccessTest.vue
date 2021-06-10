@@ -47,15 +47,15 @@
 </template>
 
 <script>
-import { ACTIONS, GETTERS } from '../../constants'
+import { ACTIONS, GETTERS } from '@/constants'
 
-import AppButton from '@/components/common/AppButton'
-import AppLoader from '@/components/common/AppLoader'
-import AppModal from '@/components/common/AppModal'
-import AppTest from '@/components/common/AppTest'
+import AppButton from '@/components/common/AppButton.vue'
+import AppLoader from '@/components/common/AppLoader.vue'
+import AppModal from '@/components/common/AppModal.vue'
+import AppTest from '@/components/common/AppTest.vue'
 
-import HomeIcon from '@/components/common/icons/HomeIcon'
-import RefreshIcon from '@/components/common/icons/RefreshIcon'
+import HomeIcon from '@/components/common/icons/HomeIcon.vue'
+import RefreshIcon from '@/components/common/icons/RefreshIcon.vue'
 
 export default {
   name: 'access-test',

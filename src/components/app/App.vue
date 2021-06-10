@@ -42,9 +42,6 @@ export default {
 
 ::-webkit-scrollbar {
   width: 10px;
-  &-track {
-    background-color: transparent;
-  }
   &-thumb {
     background-color: #d6dee1;
     border-radius: 10px;
@@ -54,6 +51,10 @@ export default {
       background-color: #a8bbbf;
     }
   }
+}
+
+body::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 .backplate {

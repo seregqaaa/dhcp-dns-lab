@@ -41,7 +41,7 @@ import { ROUTE_NAMES, GETTERS } from '../../constants'
 
 import { getRandomString } from '@/utils/strings'
 
-import AppButton from '@/components/common/AppButton'
+import AppButton from '@/components/common/AppButton.vue'
 
 export default {
   name: 'home',

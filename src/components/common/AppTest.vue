@@ -49,9 +49,9 @@ import Vue from 'vue'
 
 import { GETTERS } from '@/constants'
 
-import AppButton from '@/components/common/AppButton'
-import ProgressBar from '@/components/common/ProgressBar'
-import TestItem from '@/components/common/TestItem'
+import AppButton from '@/components/common/AppButton.vue'
+import ProgressBar from '@/components/common/ProgressBar.vue'
+import TestItem from '@/components/common/TestItem.vue'
 
 export default {
   name: 'app-test',

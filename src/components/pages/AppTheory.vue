@@ -210,8 +210,8 @@ export default {
     }
   },
   methods: {
-    scrollFix(hashbang) {
-      location.hash = `#${hashbang}`
+    scrollFix(hash) {
+      location.hash = `#${hash}`
     },
     onHomeClick() {
       if (this.isHomeButtonDebounced) return
