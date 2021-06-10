@@ -37,11 +37,12 @@
 </template>
 
 <script>
-import { ACTIONS, GETTERS } from '../../constants'
+import { ACTIONS, GETTERS } from '@/constants'
 
-import AppButton from '@/components/common/AppButton'
-import AppModal from '@/components/common/AppModal'
-import AppTest from '@/components/common/AppTest'
+import AppButton from '@/components/common/AppButton.vue'
+import AppLoader from '@/components/common/AppLoader.vue'
+import AppModal from '@/components/common/AppModal.vue'
+import AppTest from '@/components/common/AppTest.vue'
 
 // import HomeIcon from '@/components/common/icons/HomeIcon'
 // import RefreshIcon from '@/components/common/icons/RefreshIcon'
@@ -53,7 +54,8 @@ export default {
     'app-modal': AppModal,
     // 'home-icon': HomeIcon,
     // 'refresh-icon': RefreshIcon,
-    'app-test': AppTest
+    'app-test': AppTest,
+    'app-loader': AppLoader
   },
   computed: {
     testItems() {
