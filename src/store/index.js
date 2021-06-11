@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { ACTIONS, GETTERS, MUTATIONS } from '../constants'
+import { ACTIONS, GETTERS, MUTATIONS } from '@/constants'
 
-import { fillGradually } from '../utils/arrays'
+import { fillGradually } from '@/utils/arrays'
 
-import ApiManager from '../api/Manager'
+import ApiManager from '@/api/Manager'
 
-import router from '../router'
+import router from '@/router'
 
 Vue.use(Vuex)
 
@@ -21,7 +21,10 @@ export default new Vuex.Store({
     finalTest: [],
     finalTestResult: {},
     attemptsCount: 2,
-    disabledUntil: null
+    disabledUntil: null,
+    isAuthorized: false,
+    userName: '',
+    userGroup: ''
   },
   actions: {
     async [ACTIONS.FETCH_ACCESS_TEST](store) {
@@ -56,9 +59,17 @@ export default new Vuex.Store({
     },
     [ACTIONS.SET_FINAL_TEST_DISABLED_UNTIL](store, payload) {
       store.commit(MUTATIONS.SET_FINAL_TEST_DISABLED_UNTIL, payload)
+    },
+    [ACTIONS.SET_USER_DATA](store, payload) {
+      store.commit(MUTATIONS.SET_USER_DATA, payload)
     }
   },
   mutations: {
+    [MUTATIONS.SET_USER_DATA](state, payload) {
+      state.isAuthorized = true
+      state.userGroup = payload.group
+      state.userName = payload.name
+    },
     [MUTATIONS.SET_ACCESS_TEST](state, payload) {
       state.accessTest = []
       fillGradually(payload.test, state.accessTest)
@@ -92,6 +103,7 @@ export default new Vuex.Store({
     [GETTERS.GET_FINAL_TEST_RESULT]: state => state.finalTestResult,
     [GETTERS.GET_FINAL_TEST_PASSED_STATUS]: state => state.isFinalTestPassed,
     [GETTERS.GET_FINAL_TEST_ATTEMPTS_COUNTER]: state => state.attemptsCount,
-    [GETTERS.GET_FINAL_TEST_DISABLED_UNTIL]: state => state.disabledUntil
+    [GETTERS.GET_FINAL_TEST_DISABLED_UNTIL]: state => state.disabledUntil,
+    [GETTERS.GET_USER_AUTH_STATUS]: state => state.isAuthorized
   }
 })

@@ -149,6 +149,10 @@ export default {
 $redColor: #ee7d3b;
 $bottomSpacing: 5rem;
 
+body {
+  overflow-y: hidden;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
