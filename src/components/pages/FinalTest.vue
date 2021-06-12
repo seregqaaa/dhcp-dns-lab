@@ -7,10 +7,12 @@
       :testItems="testItems"
       :testResult="testResult"
       :submitButtonText="submitButtonText"
+      :isBackplateEnabled="isBackplateEnabled"
       @on-complete="onComplete"
       @on-test-completed-change="onTestCompletedChange"
     ></app-test>
     <app-loader key="loader" v-else></app-loader>
+
     <app-modal v-if="isTestCompleted && isModalActive" key="modal-window">
       <transition appear name="fade">
         <div class="modal-content">
@@ -41,7 +43,7 @@
 </template>
 
 <script>
-import { ACTIONS, GETTERS } from '@/constants'
+import { ACTIONS, GETTERS, ROUTE_NAMES } from '@/constants'
 
 import AppButton from '@/components/common/AppButton.vue'
 import AppLoader from '@/components/common/AppLoader.vue'
@@ -88,7 +90,8 @@ export default {
   data() {
     return {
       isTestCompleted: false,
-      homeButtonSize: 150
+      homeButtonSize: 150,
+      isBackplateEnabled: false
     }
   },
   methods: {
@@ -102,7 +105,7 @@ export default {
         if (this.attemptsCount) {
           await this.onRestart()
         } else {
-          this.$router.push({ name: 'home' })
+          this.$router.push({ name: ROUTE_NAMES.HOME })
         }
       }
     },
@@ -113,8 +116,10 @@ export default {
       await this.fetchTest()
       this.$root.$emit('on-test-restart')
       this.setModalStatus(false)
+      this.isBackplateEnabled = false
     },
     onLookErrors() {
+      this.isBackplateEnabled = true
       this.setModalStatus(false)
     },
     onTestCompletedChange(isTestCompleted) {
@@ -124,7 +129,7 @@ export default {
       this.$store.dispatch(ACTIONS.SET_MODAL_STATUS, { status })
     },
     onMainPage() {
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: ROUTE_NAMES.HOME })
     }
   },
   watch: {
@@ -153,34 +158,10 @@ export default {
 </script>
 
 <style lang="scss">
-$redColor: #ee7d3b;
-$bottomSpacing: 5rem;
+@import '@/assets/transition.scss';
 
 body {
   overflow-y: hidden;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.list-item {
-  display: inline-block;
-  margin-right: 10px;
-}
-.list-enter-active,
-.list-leave-active {
-  transition: all 1s;
-}
-.list-enter,
-.list-leave-to {
-  opacity: 0;
-  transform: translateY(50px) scale(1.2);
 }
 
 .modal {

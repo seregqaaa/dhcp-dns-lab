@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import { ROUTE_NAMES, ROUTE_PATHS } from '../constants'
+import { GETTERS, ROUTE_NAMES, ROUTE_PATHS } from '@/constants'
+
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -65,7 +67,14 @@ const router = new VueRouter({
 
 router.beforeEach((routeTo, _, next) => {
   document.title = routeTo.meta.title ?? DEFAULT_TITLE
-  next()
+  if (
+    !store.getters[GETTERS.GET_USER_AUTH_STATUS] &&
+    routeTo.name !== ROUTE_NAMES.HOME
+  ) {
+    next({ name: ROUTE_NAMES.HOME })
+  } else {
+    next()
+  }
 })
 
 export default router

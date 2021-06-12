@@ -147,6 +147,7 @@ export default {
         isDisabled:
           !this.isAccessTestPassed ||
           (!this.attemptsCount && !!this.finalTestTimeout),
+        isPassed: this.$store.getters[GETTERS.GET_FINAL_TEST_PASSED_STATUS],
         background: this.cardColors[3]
       }
     }
@@ -181,7 +182,7 @@ export default {
         clearTimeout(timeoutId)
       }, 1000)
       const userGroup = this.userGroup.trim()
-      const userName = this.userName.trim()
+      const userName = this.userName.trim().replace(/\. /, '.')
       if (userGroup && userName) {
         const throwError = (key, text) => {
           this[key] = ''

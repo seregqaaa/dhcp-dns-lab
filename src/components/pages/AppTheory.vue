@@ -202,6 +202,7 @@
 
 <script>
 import HomeIcon from '@/components/common/icons/HomeIcon.vue'
+import { ROUTE_NAMES } from '@/constants'
 
 export default {
   name: 'theory',
@@ -331,7 +332,7 @@ export default {
         this.isHomeButtonDebounced = false
         clearTimeout(timeoutId)
       }, 1000)
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: ROUTE_NAMES.HOME })
     }
   },
   mounted() {

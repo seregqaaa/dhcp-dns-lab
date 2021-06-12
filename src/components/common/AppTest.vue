@@ -21,6 +21,7 @@
               {{ item.title }}
             </test-item>
           </transition-group>
+          <div class="test-block-backplate" v-if="isBackplateEnabled"></div>
         </ol>
       </transition>
       <app-button
@@ -79,6 +80,10 @@ export default {
     submitButtonText: {
       type: String,
       default: 'Проверить'
+    },
+    isBackplateEnabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -205,6 +210,15 @@ $bottomSpacing: 5rem;
       }
     }
   }
+  &-block-backplate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: transparent;
+    z-index: 10;
+  }
   &-title {
     color: #000000;
     font-size: 2.4rem;
@@ -219,6 +233,7 @@ $bottomSpacing: 5rem;
     }
   }
   &-list {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;

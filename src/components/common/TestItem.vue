@@ -20,6 +20,7 @@
         {{ option.text }}
       </test-option>
     </ol>
+    <div class="test-item-hidden"></div>
   </li>
 </template>
 
