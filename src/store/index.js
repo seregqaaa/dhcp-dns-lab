@@ -45,7 +45,11 @@ export default new Vuex.Store({
       store.commit(MUTATIONS.SET_FINAL_TEST, { test })
     },
     async [ACTIONS.SEND_FINAL_TEST_RESULT](store, payload) {
-      const response = await ApiManager.finalTest.getResult(payload.answers)
+      const response = await ApiManager.finalTest.getResult({
+        answers: payload.answers,
+        userName: store.state.userName,
+        userGroup: store.state.userGroup
+      })
       store.commit(MUTATIONS.SET_FINAL_TEST_RESULT, {
         finalTestResult: response.result,
         isPassed: response.isPassed

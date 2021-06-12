@@ -18,7 +18,11 @@
             {{ `Тест${isPassed ? '' : ' не'} пройден` }}
           </h3>
           <div class="modal-options">
-            <app-button v-if="isPassed" background="red">
+            <app-button
+              v-if="isPassed"
+              background="red"
+              @click.native="onMainPage"
+            >
               На главную
             </app-button>
             <app-button
@@ -118,6 +122,9 @@ export default {
     },
     setModalStatus(status) {
       this.$store.dispatch(ACTIONS.SET_MODAL_STATUS, { status })
+    },
+    onMainPage() {
+      this.$router.push({ name: 'home' })
     }
   },
   watch: {
