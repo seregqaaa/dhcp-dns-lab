@@ -1,12 +1,6 @@
 <template>
   <button
-    :title="
-      isCompleted
-        ? 'Вы уже выполнили тест для допуска'
-        : isDisabled
-        ? titleText
-        : ''
-    "
+    :title="isCompleted ? completedTitleText : isDisabled ? titleText : ''"
     :class="className"
     :style="styleString"
     @keypress.enter.prevent
@@ -62,6 +56,10 @@ export default {
     shadowed: {
       type: Boolean,
       default: true
+    },
+    completedTitleText: {
+      type: String,
+      default: 'Функция заблокирована'
     }
   },
   computed: {

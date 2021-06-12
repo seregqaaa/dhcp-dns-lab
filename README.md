@@ -1,5 +1,9 @@
 # Дипломный проект на тему: Разработка программного интерфейса к лабораторной работе "Принципы работы DHCP, DNS и почтового серверов"
 
+## Таблица результатов
+
+[Google Sheet](https://docs.google.com/spreadsheets/d/11ioQQh4K1BKqlwRSFtitKmacgbzXez4V8hKan7I6Vv8/edit?usp=sharing)
+
 ## Для установки зависимостей:
 
 ```

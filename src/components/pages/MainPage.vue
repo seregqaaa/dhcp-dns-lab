@@ -15,6 +15,7 @@
         :background="card.background"
         :isDisabled="card.isDisabled"
         :isCompleted="card.isPassed"
+        :completedTitleText="card.completedTitleText"
         titleText="Сначала выполните тест для допуска"
         @click.native.prevent="onClick(card.id)"
         >{{ card.title }}</app-button
@@ -25,6 +26,7 @@
         :height="cardMeasurements.height"
         :borderRadius="cardMeasurements.borderRadius"
         :background="finalTestCard.background"
+        :completedTitleText="finalTestCard.completedTitleText"
         :isDisabled="finalTestCard.isDisabled"
         :isCompleted="finalTestCard.isPassed"
         titleText="Сначала выполните тест для допуска"
@@ -89,6 +91,9 @@ export default {
     isAccessTestPassed() {
       return this.$store.getters[GETTERS.GET_ACCESS_TEST_PASSED_STATUS]
     },
+    isFinalTestPassed() {
+      return this.$store.getters[GETTERS.GET_FINAL_TEST_PASSED_STATUS]
+    },
     attemptsCount() {
       return this.$store.getters[GETTERS.GET_FINAL_TEST_ATTEMPTS_COUNTER]
     },
@@ -119,7 +124,8 @@ export default {
           routeName: ROUTE_NAMES.ACCESS_TEST,
           isDisabled: this.isAccessTestPassed,
           isPassed: this.isAccessTestPassed,
-          background: this.cardColors[0]
+          background: this.cardColors[0],
+          completedTitleText: 'Тест для допуска уже пройден'
         },
         {
           id: getRandomString(),
@@ -145,10 +151,12 @@ export default {
           : this.finalTestTimer,
         routeName: ROUTE_NAMES.FINAL_TEST,
         isDisabled:
+          this.isFinalTestPassed ||
           !this.isAccessTestPassed ||
           (!this.attemptsCount && !!this.finalTestTimeout),
-        isPassed: this.$store.getters[GETTERS.GET_FINAL_TEST_PASSED_STATUS],
-        background: this.cardColors[3]
+        isPassed: this.isFinalTestPassed,
+        background: this.cardColors[3],
+        completedTitleText: 'Финальный тест уже пройден'
       }
     }
   },
@@ -251,7 +259,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~assets/transition.scss';
+@import '@/assets/transition.scss';
 
 $headerBorderRadius: 25px;
 

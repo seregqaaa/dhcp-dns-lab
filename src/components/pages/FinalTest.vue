@@ -110,6 +110,7 @@ export default {
       }
     },
     async fetchTest() {
+      if (this.isPassed) return console.log('Final test already passed')
       await this.$store.dispatch(ACTIONS.FETCH_FINAL_TEST)
     },
     async onRestart() {
@@ -142,7 +143,7 @@ export default {
     }
   },
   async created() {
-    if (!this.testItems?.length) {
+    if (!this.testItems?.length && !this.isPassed) {
       try {
         await this.fetchTest()
       } catch (e) {
