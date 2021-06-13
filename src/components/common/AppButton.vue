@@ -89,7 +89,7 @@ export default {
     text-align: center;
     color: #ffffff;
     opacity: 0.97;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 700;
     & > * {
       width: 100%;

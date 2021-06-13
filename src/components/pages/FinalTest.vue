@@ -12,7 +12,6 @@
       @on-test-completed-change="onTestCompletedChange"
     ></app-test>
     <app-loader key="loader" v-else></app-loader>
-
     <app-modal v-if="isTestCompleted && isModalActive" key="modal-window">
       <transition appear name="fade">
         <div class="modal-content">
@@ -20,12 +19,12 @@
             {{ `Тест${isPassed ? '' : ' не'} пройден` }}
           </h3>
           <div class="modal-options">
-            <app-button
-              v-if="isPassed"
-              background="red"
-              @click.native="onMainPage"
-            >
-              На главную
+            <app-button v-if="isPassed" background="red" :width="300">
+              <a
+                href="https://docs.google.com/spreadsheets/d/11ioQQh4K1BKqlwRSFtitKmacgbzXez4V8hKan7I6Vv8"
+                rel="noopener noreferrer"
+                >Таблица результатов</a
+              >
             </app-button>
             <app-button
               v-else
@@ -39,6 +38,7 @@
         </div>
       </transition>
     </app-modal>
+    <app-loader key="complete-loader" v-if="isLoaderVisible"></app-loader>
   </transition-group>
 </template>
 
@@ -50,16 +50,11 @@ import AppLoader from '@/components/common/AppLoader.vue'
 import AppModal from '@/components/common/AppModal.vue'
 import AppTest from '@/components/common/AppTest.vue'
 
-// import HomeIcon from '@/components/common/icons/HomeIcon'
-// import RefreshIcon from '@/components/common/icons/RefreshIcon'
-
 export default {
   name: 'final-test',
   components: {
     'app-button': AppButton,
     'app-modal': AppModal,
-    // 'home-icon': HomeIcon,
-    // 'refresh-icon': RefreshIcon,
     'app-test': AppTest,
     'app-loader': AppLoader
   },
@@ -91,15 +86,18 @@ export default {
     return {
       isTestCompleted: false,
       homeButtonSize: 150,
-      isBackplateEnabled: false
+      isBackplateEnabled: false,
+      isLoaderVisible: false
     }
   },
   methods: {
     async onComplete(payload) {
+      this.isLoaderVisible = true
       if (!this.submitButtonText) {
         await this.$store.dispatch(ACTIONS.SEND_FINAL_TEST_RESULT, {
           answers: payload.answers
         })
+        this.isLoaderVisible = false
         this.setModalStatus(true)
       } else {
         if (this.attemptsCount) {

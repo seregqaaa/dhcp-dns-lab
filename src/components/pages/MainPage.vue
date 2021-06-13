@@ -29,7 +29,7 @@
         :completedTitleText="finalTestCard.completedTitleText"
         :isDisabled="finalTestCard.isDisabled"
         :isCompleted="finalTestCard.isPassed"
-        titleText="Сначала выполните тест для допуска"
+        :titleText="finalTestCard.notCompletedTitle"
         @click.native.prevent="onClick(finalTestCard.id)"
       >
         {{ finalTestCard.title }}
@@ -156,7 +156,10 @@ export default {
           (!this.attemptsCount && !!this.finalTestTimeout),
         isPassed: this.isFinalTestPassed,
         background: this.cardColors[3],
-        completedTitleText: 'Финальный тест уже пройден'
+        completedTitleText: 'Финальный тест уже пройден',
+        notCompletedTitle: this.finalTestTimer
+          ? `Повторите попытку через ${this.finalTestTimer}`
+          : 'Сначала выполните тест для допуска'
       }
     }
   },

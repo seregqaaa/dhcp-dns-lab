@@ -113,7 +113,7 @@ $filledRadius: 30px;
       font-size: 0;
     }
     &.completed {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
 }
