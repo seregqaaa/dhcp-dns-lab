@@ -1,14 +1,23 @@
 .purple {
+  &-plain {
+    background: #7f00ff;
+  }
   background: #7f00ff;
   background: -webkit-linear-gradient(to bottom, #e100ff, #7f00ff);
   background: linear-gradient(to bottom, #e100ff, #7f00ff);
 }
 .blue {
+  &-plain {
+    background: #24c6dc;
+  }
   background: #24c6dc;
   background: -webkit-linear-gradient(to bottom, #514a9d, #24c6dc);
   background: linear-gradient(to bottom, #514a9d, #24c6dc);
 }
 .red {
+  &-plain {
+    background: #ff5f6d;
+  }
   background: #ff5f6d;
   background: -webkit-linear-gradient(to bottom, #ffc371, #ff5f6d);
   background: linear-gradient(to bottom, #ffc371, #ff5f6d);
@@ -17,6 +26,9 @@
   }
 }
 .green {
+  &-plain {
+    background: #134e5e;
+  }
   background: #134e5e;
   background: -webkit-linear-gradient(to bottom, #71b280, #134e5e);
   background: linear-gradient(to bottom, #71b280, #134e5e);

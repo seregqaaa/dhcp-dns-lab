@@ -18,6 +18,7 @@ export default new Vuex.Store({
     isAccessTestPassed: false,
     isModalActive: false,
     isFinalTestPassed: false,
+    isPracticePassed: false,
     finalTest: [],
     finalTestResult: {},
     attemptsCount: 2,
@@ -66,6 +67,9 @@ export default new Vuex.Store({
     },
     [ACTIONS.SET_USER_DATA](store, payload) {
       store.commit(MUTATIONS.SET_USER_DATA, payload)
+    },
+    [ACTIONS.SET_PRACTICE_RESULT](store) {
+      store.commit(MUTATIONS.SET_PRACTICE_RESULT)
     }
   },
   mutations: {
@@ -97,6 +101,9 @@ export default new Vuex.Store({
     },
     [MUTATIONS.SET_FINAL_TEST_DISABLED_UNTIL](state, payload) {
       state.disabledUntil = payload.until
+    },
+    [MUTATIONS.SET_PRACTICE_RESULT](state) {
+      state.isPracticePassed = true
     }
   },
   getters: {
@@ -108,6 +115,7 @@ export default new Vuex.Store({
     [GETTERS.GET_FINAL_TEST_PASSED_STATUS]: state => state.isFinalTestPassed,
     [GETTERS.GET_FINAL_TEST_ATTEMPTS_COUNTER]: state => state.attemptsCount,
     [GETTERS.GET_FINAL_TEST_DISABLED_UNTIL]: state => state.disabledUntil,
-    [GETTERS.GET_USER_AUTH_STATUS]: state => state.isAuthorized
+    [GETTERS.GET_USER_AUTH_STATUS]: state => state.isAuthorized,
+    [GETTERS.GET_PRACTICE_RESULT]: state => state.isPracticePassed
   }
 })

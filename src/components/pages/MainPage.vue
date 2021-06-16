@@ -91,6 +91,9 @@ export default {
     isAccessTestPassed() {
       return this.$store.getters[GETTERS.GET_ACCESS_TEST_PASSED_STATUS]
     },
+    isPracticePassed() {
+      return this.$store.getters[GETTERS.GET_PRACTICE_RESULT]
+    },
     isFinalTestPassed() {
       return this.$store.getters[GETTERS.GET_FINAL_TEST_PASSED_STATUS]
     },
@@ -138,8 +141,10 @@ export default {
           id: getRandomString(),
           title: 'Практика',
           routeName: ROUTE_NAMES.PRACTICE,
-          isDisabled: !this.isAccessTestPassed,
-          background: this.cardColors[2]
+          isDisabled: this.isPracticePassed || !this.isAccessTestPassed,
+          isPassed: this.isPracticePassed,
+          background: this.cardColors[2],
+          completedTitleText: 'Практика уже пройдена'
         }
       ]
     },
@@ -153,13 +158,18 @@ export default {
         isDisabled:
           this.isFinalTestPassed ||
           !this.isAccessTestPassed ||
+          !this.isPracticePassed ||
           (!this.attemptsCount && !!this.finalTestTimeout),
         isPassed: this.isFinalTestPassed,
         background: this.cardColors[3],
         completedTitleText: 'Финальный тест уже пройден',
         notCompletedTitle: this.finalTestTimer
           ? `Повторите попытку через ${this.finalTestTimer}`
-          : 'Сначала выполните тест для допуска'
+          : !this.isAccessTestPassed
+          ? 'Сначала выполните тест для допуска'
+          : !this.isPracticePassed
+          ? 'Сначала выполните практику'
+          : ''
       }
     }
   },

@@ -190,24 +190,19 @@
             </div>
           </section>
         </main>
-        <home-icon
-          key="home-icon"
-          class="theory-home"
-          @click.native="onHomeClick"
-        ></home-icon>
+        <home-button key="theory-home-button" />
       </transition-group>
     </div>
   </transition>
 </template>
 
 <script>
-import HomeIcon from '@/components/common/icons/HomeIcon.vue'
-import { ROUTE_NAMES } from '@/constants'
+import HomeButton from '@/components/common/HomeButton.vue'
 
 export default {
   name: 'theory',
   components: {
-    'home-icon': HomeIcon
+    'home-button': HomeButton
   },
   computed: {
     menuItems() {
@@ -324,15 +319,6 @@ export default {
         }
         clearTimeout(timeoutId)
       }, 2000)
-    },
-    onHomeClick() {
-      if (this.isHomeButtonDebounced) return
-      this.isHomeButtonDebounced = true
-      const timeoutId = setTimeout(() => {
-        this.isHomeButtonDebounced = false
-        clearTimeout(timeoutId)
-      }, 1000)
-      this.$router.push({ name: ROUTE_NAMES.HOME })
     }
   },
   mounted() {
@@ -357,29 +343,10 @@ $transitionFunc: ease;
 $mainBg: rgba(255, 255, 255, 0.95);
 $mainShadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 $mainBorderRadius: 10px;
-$homeButtonSize: 60px;
 
 .theory {
-  &-home {
-    bottom: 20px;
-    right: 20px;
-    position: fixed;
-    z-index: 10;
-    padding: 15px;
-    width: $homeButtonSize;
-    height: $homeButtonSize;
-    background-color: #ffffff;
-    border-radius: 50%;
-    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.18);
-    color: black;
-    cursor: pointer;
-    transition: background-color $transitionTime $transitionFunc;
-    &:hover {
-      background-color: #f9f9f9;
-    }
-  }
   &-wrapper {
-    padding: 20px 30px 20px 0;
+    padding: 20px 10px 20px 0;
     transition: padding $transitionTime $transitionFunc;
   }
   &-nav {
@@ -496,13 +463,7 @@ $homeButtonSize: 60px;
 }
 
 @media (max-width: 950px) {
-  $homeButtonSize: 40px;
   .theory {
-    &-home {
-      width: $homeButtonSize;
-      height: $homeButtonSize;
-      padding: 8px;
-    }
     &-wrapper {
       padding: 0;
     }
