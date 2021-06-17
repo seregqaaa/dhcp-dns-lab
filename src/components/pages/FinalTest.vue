@@ -116,6 +116,7 @@ export default {
       this.$root.$emit('on-test-restart')
       this.setModalStatus(false)
       this.isBackplateEnabled = false
+      this.isLoaderVisible = false
     },
     onLookErrors() {
       this.isBackplateEnabled = true
