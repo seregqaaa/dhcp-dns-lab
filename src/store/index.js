@@ -19,11 +19,11 @@ export default new Vuex.Store({
     isModalActive: false,
     isFinalTestPassed: false,
     isPracticePassed: false,
+    isAuthorized: false,
     finalTest: [],
     finalTestResult: {},
     attemptsCount: 2,
     disabledUntil: null,
-    isAuthorized: false,
     userName: '',
     userGroup: ''
   },
