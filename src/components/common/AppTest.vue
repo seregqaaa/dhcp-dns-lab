@@ -84,6 +84,10 @@ export default {
     isBackplateEnabled: {
       type: Boolean,
       default: false
+    },
+    testLength: {
+      type: Number,
+      required: true
     }
   },
   computed: {
@@ -135,9 +139,7 @@ export default {
     answers: function(answers) {
       const answersLen = Object.keys(answers).length
       const progress =
-        answersLen > 0
-          ? Math.trunc((answersLen / this.testItems.length) * 100)
-          : 0
+        answersLen > 0 ? Math.trunc((answersLen / this.testLength) * 100) : 0
       const intervalId = setInterval(() => {
         if (this.testProgress < progress) {
           this.testProgress++

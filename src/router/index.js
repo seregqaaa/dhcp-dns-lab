@@ -77,4 +77,11 @@ router.beforeEach((routeTo, _, next) => {
   }
 })
 
+router.beforeEach((routeTo, _, next) => {
+  if (store.getters[GETTERS.GET_FINAL_TEST_PASSED_STATUS]) {
+    next(false)
+  }
+  next()
+})
+
 export default router

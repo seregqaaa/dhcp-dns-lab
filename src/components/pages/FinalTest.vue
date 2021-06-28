@@ -8,6 +8,7 @@
       :testResult="testResult"
       :submitButtonText="submitButtonText"
       :isBackplateEnabled="isBackplateEnabled"
+      :testLength="15"
       @on-complete="onComplete"
       @on-test-completed-change="onTestCompletedChange"
     ></app-test>

@@ -19,6 +19,14 @@
           </div>
         </template>
 
+        <template v-else-if="pages[pageIndex].type === TaskType.Custom">
+          <component
+            :ref="pages[pageIndex].id"
+            :is="pages[pageIndex].component"
+            :arr="pages[pageIndex].content"
+          ></component>
+        </template>
+
         <p
           v-if="isPassed !== null"
           class="task-item-result"
@@ -34,7 +42,7 @@
           <app-button
             :background="pages[pageIndex].button.background"
             :borderRadius="10"
-            :width="145"
+            :width="150"
             :height="35"
             @click.native="pages[pageIndex].button.handler"
           >
@@ -50,10 +58,12 @@
 import { ACTIONS, GETTERS, ROUTE_NAMES } from '@/constants'
 
 import AppButton from '@/components/common/AppButton.vue'
+import ClientServerTask from '@/components/common/PracticeTask/ClientServerTask.vue'
 
 const TaskType = {
   Theory: 'theory',
-  Practice: 'practice'
+  Practice: 'practice',
+  Custom: 'custom'
 }
 
 export default {
@@ -79,6 +89,41 @@ export default {
       pageIndex: 0,
       isPassed: null,
       pages: [
+        {
+          id: 'page-custom-0',
+          type: TaskType.Custom,
+          component: ClientServerTask,
+          check(answers) {
+            const correctAnswers = ['3', '2', '1', '4']
+            for (let i = 0; i < correctAnswers.length; i++) {
+              if (answers[i] !== correctAnswers[i]) return false
+            }
+            return true
+          },
+          button: {
+            background: 'green-plain',
+            text: 'Проверить',
+            handler: this.onPracticeButtonClick
+          },
+          content: [
+            {
+              id: '3',
+              text: 'Отправка запроса на DNS-сервер'
+            },
+            {
+              id: '2',
+              text: 'Ответ с DNS-сервера'
+            },
+            {
+              id: '1',
+              text: 'Отправка запроса по IP-адресу'
+            },
+            {
+              id: '4',
+              text: 'Ответ от сервера'
+            }
+          ]
+        },
         {
           id: 'page-0',
           type: TaskType.Theory,
@@ -244,21 +289,35 @@ export default {
     onPracticeButtonClick() {
       const page = this.pages[this.pageIndex]
       const isLastPage = this.pageIndex === this.pages.length - 1
+      let isTaskCorrect = false
+
       if (this.isPassed) {
         return isLastPage ? this.onComplete() : this.onTheoryButtonClick()
       }
-      if (!page.cli.every(line => line.input.trim())) {
-        return
-      }
-      const cli = page.cli
-      const counter = cli.reduce(
-        (acc, val) => (val.input === val.correct ? acc + 1 : acc),
-        0
-      )
 
-      if (cli.length === counter) {
-        this.isPassed = true
+      if (page.type === TaskType.Custom) {
+        if (page.check(this.$refs[page.id].list.map(item => item.id))) {
+          isTaskCorrect = true
+        }
+      } else {
+        if (!page.cli.every(line => line.input.trim())) {
+          return
+        }
+
+        const cli = page.cli
+        const counter = cli.reduce(
+          (acc, val) => (val.input === val.correct ? acc + 1 : acc),
+          0
+        )
+
+        if (cli.length === counter) {
+          isTaskCorrect = true
+        }
+      }
+
+      if (isTaskCorrect) {
         page.button.text = isLastPage ? 'Главная' : 'Далее'
+        this.isPassed = true
       } else {
         this.isPassed = false
       }

@@ -6,6 +6,7 @@
       testTitle="Тест для допуска"
       :isPassed="isPassed"
       :testItems="testItems"
+      :testLength="5"
       @on-complete="onComplete"
       @on-test-completed-change="onTestCompletedChange"
     ></app-test>
