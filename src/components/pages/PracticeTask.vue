@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { ACTIONS, ROUTE_NAMES } from '@/constants'
+import { ACTIONS, GETTERS, ROUTE_NAMES } from '@/constants'
 
 import AppButton from '@/components/common/AppButton.vue'
 
@@ -68,6 +68,9 @@ export default {
           ? 'Верно'
           : 'Неверно'
         : null
+    },
+    isPracticePassed() {
+      return this.$store.getters[GETTERS.GET_PRACTICE_RESULT]
     }
   },
   data() {
@@ -264,6 +267,11 @@ export default {
       this.$store
         .dispatch(ACTIONS.SET_PRACTICE_RESULT)
         .then(this.$router.push({ name: ROUTE_NAMES.HOME }))
+    }
+  },
+  created() {
+    if (this.isPracticePassed) {
+      return this.$router.push({ name: 'home' })
     }
   }
 }

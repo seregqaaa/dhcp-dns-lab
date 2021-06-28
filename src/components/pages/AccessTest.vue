@@ -112,6 +112,9 @@ export default {
     }
   },
   async created() {
+    if (this.isPassed) {
+      return this.$router.push({ name: 'home' })
+    }
     if (!this.testItems?.length) {
       try {
         await this.fetchTest()
