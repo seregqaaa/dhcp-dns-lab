@@ -300,7 +300,9 @@ export default {
           isTaskCorrect = true
         }
       } else {
-        if (!page.cli.every(line => line.input.trim())) {
+        page.cli.forEach(line => (line.input = line.input.trim()))
+
+        if (!page.cli.every(line => !!line)) {
           return
         }
 

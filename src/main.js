@@ -13,7 +13,9 @@ import '@/assets/colors.scss'
 
 Vue.config.productionTip = false
 
-window.addEventListener('beforeunload', beforeUnload)
+if (process.env.NODE_ENV !== 'development') {
+  window.addEventListener('beforeunload', beforeUnload)
+}
 
 new Vue({
   router,
