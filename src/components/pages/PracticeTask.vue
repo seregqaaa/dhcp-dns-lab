@@ -300,9 +300,12 @@ export default {
           isTaskCorrect = true
         }
       } else {
-        page.cli.forEach(line => (line.input = line.input.trim()))
-
-        if (!page.cli.every(line => !!line)) {
+        if (
+          !page.cli.every(line => {
+            line.input = line.input.replace(/\s{2,}/g, ' ').trim()
+            return !!line.input
+          })
+        ) {
           return
         }
 
