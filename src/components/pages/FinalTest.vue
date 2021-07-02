@@ -21,9 +21,7 @@
           </h3>
           <div class="modal-options">
             <app-button v-if="isPassed" background="red" :width="300">
-              <a
-                href="https://docs.google.com/spreadsheets/d/11ioQQh4K1BKqlwRSFtitKmacgbzXez4V8hKan7I6Vv8"
-                rel="noopener noreferrer"
+              <a :href="tableLink" rel="noopener noreferrer"
                 >Таблица результатов</a
               >
             </app-button>
@@ -44,7 +42,7 @@
 </template>
 
 <script>
-import { ACTIONS, GETTERS, ROUTE_NAMES } from '@/constants'
+import { ACTIONS, GETTERS, ROUTE_NAMES, url } from '@/constants'
 
 import AppButton from '@/components/common/AppButton.vue'
 import AppLoader from '@/components/common/AppLoader.vue'
@@ -88,7 +86,8 @@ export default {
       isTestCompleted: false,
       homeButtonSize: 150,
       isBackplateEnabled: false,
-      isLoaderVisible: false
+      isLoaderVisible: false,
+      tableLink: url.sheet
     }
   },
   methods: {
@@ -135,7 +134,7 @@ export default {
   },
   watch: {
     attemptsCount: function(count) {
-      if (!count) {
+      if (!count && !this.isPassed) {
         this.$store.dispatch(ACTIONS.SET_FINAL_TEST_DISABLED_UNTIL, {
           until: Date.now() + 1000 * 60 * 5
         })

@@ -49,3 +49,8 @@ export const GETTERS = {
   GET_USER_AUTH_STATUS: 'getIsUserAuthorized',
   GET_PRACTICE_RESULT: 'getPracticeResult'
 }
+
+export const url = {
+  sheet:
+    'https://docs.google.com/spreadsheets/d/11ioQQh4K1BKqlwRSFtitKmacgbzXez4V8hKan7I6Vv8'
+}

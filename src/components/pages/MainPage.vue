@@ -1,39 +1,50 @@
 <template>
   <transition appear name="fade">
     <div v-if="isAuthorized" class="wrapper">
-      <header class="header" ref="pageHeader">
-        <h1 class="header-title">
-          Принципы работы DHCP, DNS и почтового серверов
-        </h1>
-      </header>
-      <app-button
-        v-for="card in cards"
-        :key="card.id"
-        :width="cardMeasurements.width"
-        :height="cardMeasurements.height"
-        :borderRadius="cardMeasurements.borderRadius"
-        :background="card.background"
-        :isDisabled="card.isDisabled"
-        :isCompleted="card.isPassed"
-        :completedTitleText="card.completedTitleText"
-        titleText="Сначала выполните тест для допуска"
-        @click.native.prevent="onClick(card.id)"
-        >{{ card.title }}</app-button
-      >
-      <app-button
-        :key="finalTestCard.id"
-        :width="cardMeasurements.width"
-        :height="cardMeasurements.height"
-        :borderRadius="cardMeasurements.borderRadius"
-        :background="finalTestCard.background"
-        :completedTitleText="finalTestCard.completedTitleText"
-        :isDisabled="finalTestCard.isDisabled"
-        :isCompleted="finalTestCard.isPassed"
-        :titleText="finalTestCard.notCompletedTitle"
-        @click.native.prevent="onClick(finalTestCard.id)"
-      >
-        {{ finalTestCard.title }}
-      </app-button>
+      <template v-if="!isFinalTestPassed">
+        <header class="header" ref="pageHeader">
+          <h1 class="header-title">
+            Принципы работы DHCP, DNS и почтового серверов
+          </h1>
+        </header>
+        <app-button
+          v-for="card in cards"
+          :key="card.id"
+          :width="cardMeasurements.width"
+          :height="cardMeasurements.height"
+          :borderRadius="cardMeasurements.borderRadius"
+          :background="card.background"
+          :isDisabled="card.isDisabled"
+          :isCompleted="card.isPassed"
+          :completedTitleText="card.completedTitleText"
+          titleText="Сначала выполните тест для допуска"
+          @click.native.prevent="onClick(card.id)"
+          >{{ card.title }}</app-button
+        >
+        <app-button
+          :key="finalTestCard.id"
+          :width="cardMeasurements.width"
+          :height="cardMeasurements.height"
+          :borderRadius="cardMeasurements.borderRadius"
+          :background="finalTestCard.background"
+          :completedTitleText="finalTestCard.completedTitleText"
+          :isDisabled="finalTestCard.isDisabled"
+          :isCompleted="finalTestCard.isPassed"
+          :titleText="finalTestCard.notCompletedTitle"
+          @click.native.prevent="onClick(finalTestCard.id)"
+        >
+          {{ finalTestCard.title }}
+        </app-button>
+      </template>
+      <app-modal v-else>
+        <div class="end-wrapper">
+          <app-button background="red" :width="280">
+            <a :href="tableLink" target="_blank" rel="noopener noreferrer"
+              >Таблица результатов</a
+            >
+          </app-button>
+        </div>
+      </app-modal>
     </div>
     <app-modal v-else>
       <div class="auth-wrapper" @keypress.enter="onAuth">
@@ -71,7 +82,7 @@
 </template>
 
 <script>
-import { ROUTE_NAMES, GETTERS, ACTIONS } from '@/constants'
+import { ROUTE_NAMES, GETTERS, ACTIONS, url } from '@/constants'
 
 import { getRandomString } from '@/utils/strings'
 
@@ -185,7 +196,8 @@ export default {
       finalTestTimeout: 0,
       userGroup: '',
       userName: '',
-      isAuthDebounced: false
+      isAuthDebounced: false,
+      tableLink: url.sheet
     }
   },
   methods: {
@@ -242,7 +254,7 @@ export default {
     }
   },
   mounted() {
-    if (this.isAuthorized) {
+    if (this.isAuthorized && !this.isFinalTestPassed) {
       this.hideHeader()
     }
 

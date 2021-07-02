@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { GETTERS } from '../../constants'
+import { GETTERS } from '@/constants'
 
 import AppLoader from '@/components/common/AppLoader'
 
