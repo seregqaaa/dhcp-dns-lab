@@ -2,6 +2,7 @@ const execa = require("execa");
 const fs = require("fs");
 (async () => {
   try {
+    await execa("git", ["branch", "-D", "gh-pages"]);
     await execa("git", ["checkout", "--orphan", "gh-pages"]);
     console.log("Building started...");
     await execa("yarn", ["build"]);
@@ -9,7 +10,7 @@ const fs = require("fs");
     await execa("git", ["--work-tree", folderName, "add", "--all"]);
     await execa("git", ["--work-tree", folderName, "commit", "-m", "gh-pages"]);
     console.log("Pushing to gh-pages...");
-    await execa("git", ["push", "--set-upstream", "dhcp-dns-lab", "gh-pages", "--force"]);
+    await execa("git", ["push", "--set-upstream", "origin", "gh-pages", "--force"]);
     await execa("rm", ["-r", folderName]);
     await execa("git", ["checkout", "-f", "master"]);
     await execa("git", ["branch", "-D", "gh-pages"]);
