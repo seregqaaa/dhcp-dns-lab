@@ -15,10 +15,10 @@ export default new Vuex.Store({
   state: {
     accessTest: [],
     accessTestResult: 0,
-    isAccessTestPassed: true,
+    isAccessTestPassed: false,
     isModalActive: false,
     isFinalTestPassed: false,
-    isPracticePassed: true,
+    isPracticePassed: false,
     isAuthorized: false,
     finalTest: [],
     finalTestResult: {},
