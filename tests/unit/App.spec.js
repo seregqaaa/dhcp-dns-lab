@@ -6,17 +6,9 @@ import store from '@/store'
 import App from '@/components/app/App.vue'
 
 describe('App.vue', () => {
-  let wrapper
+  let wrapper = mount(App, { router, store })
 
-  beforeEach(() => {
-    wrapper = mount(App, { router, store })
-  })
-
-  it('renders data', () => {
-    expect(wrapper.text()).toContain('Группа')
-  })
-
-  it('not displays modal', () => {
+  it('not displays modal window', () => {
     expect(wrapper.vm.isModalActive).toEqual(false)
   })
 })
