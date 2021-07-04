@@ -1,17 +1,16 @@
+import dotenv from 'dotenv'
+
 import test from './modules/test'
 
-export default class ApiManager {
-  static URL = 'https://aqueous-crag-82522.herokuapp.com'
+dotenv.config()
 
-  /**
-   * Стандартный URL: http://127.0.0.1:5000.
-   * Данный URL (http://192.168.0.4:5000) используется для возможности
-   * корректной отправки запросов на сервер, при тестировании приложения на
-   * других устройствах внутри одной локальной сети.
-   */
+export default class ApiManager {
+  static REMOTE_URL = process.env.REMOTE_URL
+
   static DEV_URL = 'http://127.0.0.1:5000'
 
-  static URL = process.env.NODE_ENV === 'development' ? this.DEV_URL : this.URL
+  static URL =
+    process.env.NODE_ENV === 'development' ? this.DEV_URL : this.REMOTE_URL
 
   static endpoint = {
     accessTest: 'access-test',
